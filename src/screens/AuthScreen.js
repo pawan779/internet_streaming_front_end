@@ -10,9 +10,9 @@ import { TextInput, Button, HelperText, Text, Card } from "react-native-paper";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { errorTheme } from "../colors/theme";
 import { useDispatch, useSelector } from "react-redux";
-import { signUp } from "../store/actions/authAction";
+import { signUp, signIn } from "../store/actions/authAction";
 
-const AuthScreen = ({ navigation }) => {
+const AuthScreen = () => {
   const [mode, setMode] = useState("SignIn");
   const [change, setChange] = useState("Don't have account? SignUp Here");
   const [email, setEmail] = useState("");
@@ -30,7 +30,6 @@ const AuthScreen = ({ navigation }) => {
   const [error, setError] = useState("");
 
   const dispatch = useDispatch();
-  const { token, admin } = useSelector((state) => state.auth);
 
   const emailValidation = () => {
     let reg = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/;
@@ -144,6 +143,21 @@ const AuthScreen = ({ navigation }) => {
         setError(err.response.data.error);
         setisLoading(false);
       }
+    } else {
+      if (isEmailError || isPasswordError) {
+        setisLoading(false);
+        return Alert.alert("Invalid");
+      }
+
+      let action;
+      action = signIn(email, password);
+      try {
+        await dispatch(action);
+        setisLoading(false);
+      } catch (err) {
+        setError(err.response.data.error);
+        setisLoading(false);
+      }
     }
   };
 
@@ -161,7 +175,7 @@ const AuthScreen = ({ navigation }) => {
             margin: 20,
           }}
         >
-          {mode} {token}
+          {mode}
         </Text>
 
         <TextInput
