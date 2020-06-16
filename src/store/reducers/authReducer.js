@@ -6,7 +6,10 @@ const initialState = {
 export const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case "AUTH":
-      return state;
+      return {
+        token: action.payload.token,
+        admin: action.payload.admin
+      };
     default:
       return state;
   }

@@ -9,8 +9,10 @@ import {
 import { TextInput, Button, HelperText, Text, Card } from "react-native-paper";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { errorTheme } from "../colors/theme";
+import { useDispatch, useSelector } from "react-redux";
+import { signUp } from "../store/actions/authAction";
 
-const AuthScreen = () => {
+const AuthScreen = ({ navigation }) => {
   const [mode, setMode] = useState("SignIn");
   const [change, setChange] = useState("Don't have account? SignUp Here");
   const [email, setEmail] = useState("");
@@ -26,6 +28,9 @@ const AuthScreen = () => {
   const [iscPasswordError, setiscPasswordError] = useState(true);
   const [isLoading, setisLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const dispatch = useDispatch();
+  const { token, admin } = useSelector((state) => state.auth);
 
   const emailValidation = () => {
     let reg = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/;
@@ -117,8 +122,7 @@ const AuthScreen = () => {
     }
   };
 
-  const handleSubmit = () => {
-    let action;
+  const handleSubmit = async () => {
     if (mode === "SignUp") {
       setisLoading(true);
       if (
@@ -131,8 +135,15 @@ const AuthScreen = () => {
         setCheckedError("Please checked the box");
         return Alert.alert("Invalid");
       }
-      
-      
+      let action;
+      action = signUp(email, password);
+      try {
+        await dispatch(action);
+        setisLoading(false);
+      } catch (err) {
+        setError(err.response.data.error);
+        setisLoading(false);
+      }
     }
   };
 
@@ -150,7 +161,7 @@ const AuthScreen = () => {
             margin: 20,
           }}
         >
-          {mode}
+          {mode} {token}
         </Text>
 
         <TextInput
