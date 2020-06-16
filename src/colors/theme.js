@@ -15,8 +15,17 @@ export const myDarkTheme = {
 export const myDefaultTheme = {
     ...DefaultTheme,
   colors: {
-    primary: "blue",
+    primary: "#007acc",
     text: "#000",
     placeholder: "#000",
+    error:"red"
+  },
+};
+
+export const errorTheme = {
+  ...DefaultTheme,
+  colors: {
+    placeholder: "red",
+    primary: "red",
   },
 };

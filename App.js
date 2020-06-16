@@ -1,19 +1,50 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import Auth from "./src/screens/auth";
+import { StyleSheet, Text, View, AsyncStorage } from "react-native";
+import {
+  DefaultTheme,
+  Provider as PaperProvider,
+  DarkTheme,
+} from "react-native-paper";
+import { createStore, applyMiddleware } from "redux";
+import { Provider } from "react-redux";
+import ReduxThunk from "redux-thunk";
+import rootReducer from "./src/store/reducers";
+import { persistStore, persistReducer } from "redux-persist";
+import { PersistGate } from "redux-persist/es/integration/react";
 import Router from "./src/navigation/router";
-import { DefaultTheme, Provider as PaperProvider, DarkTheme } from 'react-native-paper';
-import { myTheme, myDefaultTheme, myDarkTheme } from "./src/colors/theme";
+import { myDefaultTheme } from "./src/colors/theme";
 
-export default function App() {
+const persistConfig = {
+  key: "root",
+  storage: AsyncStorage,
+  whitelist: ["auth"],
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+const store = createStore(persistedReducer, applyMiddleware(ReduxThunk));
+
+const persistedStore = persistStore(store);
+
+const App = () => {
   return (
     <View style={styles.container}>
-    <PaperProvider theme={myDefaultTheme}>
-      <Router />
+      <PaperProvider theme={myDefaultTheme}>
+        <Router />
       </PaperProvider>
     </View>
   );
-}
+};
+
+export default () => {
+  return (
+    <Provider store={store}>
+      <PersistGate persistor={persistedStore} loading={null}>
+        <App />
+      </PersistGate>
+    </Provider>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {

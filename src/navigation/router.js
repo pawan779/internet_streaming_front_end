@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { NavigationContainer, DarkTheme } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import Auth from "../screens/auth";
+import AuthScreen from "../screens/AuthScreen";
 
 const Stack = createStackNavigator();
 
@@ -10,7 +10,7 @@ const Router = () => {
   return (
     <NavigationContainer >
       <Stack.Navigator headerMode="none">
-        <Stack.Screen name="Auth" component={Auth} />
+        <Stack.Screen name="Auth" component={AuthScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
