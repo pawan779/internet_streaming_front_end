@@ -122,8 +122,8 @@ const AuthScreen = () => {
   };
 
   const handleSubmit = async () => {
+    setisLoading(true);
     if (mode === "SignUp") {
-      setisLoading(true);
       if (
         isEmailError ||
         isPasswordError ||
