@@ -12,12 +12,13 @@ import rootReducer from "./src/store/reducers";
 import { persistStore, persistReducer } from "redux-persist";
 import { PersistGate } from "redux-persist/es/integration/react";
 import Router from "./src/navigation/router";
-import { myDefaultTheme } from "./src/colors/theme";
+import { myDefaultTheme, myDarkTheme } from "./src/colors/theme";
 
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
   whitelist: ["auth"],
+
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -29,7 +30,7 @@ const persistedStore = persistStore(store);
 const App = () => {
   return (
     <View style={styles.container}>
-      <PaperProvider theme={myDefaultTheme}>
+      <PaperProvider theme={myDarkTheme}>
         <Router />
       </PaperProvider>
     </View>

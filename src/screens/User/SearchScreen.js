@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, View, Text } from 'react-native'
     
-const CategoryScreen = () => {
+const SearchScreen = () => {
     return (
     <View>
     
@@ -10,4 +10,4 @@ const CategoryScreen = () => {
 };
     
 const styles = StyleSheet.create({});
-export default  CategoryScreen;
+export default  SearchScreen;

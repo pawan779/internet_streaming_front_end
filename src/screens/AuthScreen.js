@@ -11,6 +11,7 @@ import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { errorTheme } from "../colors/theme";
 import { useDispatch, useSelector } from "react-redux";
 import { signUp, signIn } from "../store/actions/authAction";
+import { useTheme } from "@react-navigation/native";
 
 const AuthScreen = () => {
   const [mode, setMode] = useState("SignIn");
@@ -30,6 +31,7 @@ const AuthScreen = () => {
   const [error, setError] = useState("");
 
   const dispatch = useDispatch();
+  const {colors}=useTheme();
 
   const emailValidation = () => {
     let reg = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/;
@@ -89,16 +91,16 @@ const AuthScreen = () => {
         <HelperText type="error" visible={cpaswordError}>
           {cpaswordError}
         </HelperText>
-        <Card style={{ marginTop: 10 }} onPress={() => setChecked(!checked)}>
+        <Card style={{ marginTop: 10, backgroundColor:colors.secondary }} onPress={() => setChecked(!checked)}>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             {!checked ? (
               <MaterialCommunityIcons
                 name="checkbox-blank-outline"
                 size={24}
-                color="black"
+                color={colors.text} 
               />
             ) : (
-              <Ionicons name="md-checkbox-outline" size={24} color="black" />
+              <Ionicons name="md-checkbox-outline" size={24} color={colors.text} />
             )}
             <Text style={{ marginLeft: 5 }}>
               I agree all the Terms and conditions.
