@@ -5,7 +5,7 @@ const { authReducer } = require("./authReducer");
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  movie: movieReducer,
+  movies: movieReducer,
 });
 
 export default rootReducer;

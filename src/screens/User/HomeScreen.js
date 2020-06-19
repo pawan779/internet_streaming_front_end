@@ -11,7 +11,7 @@ import { getMovie } from "../../store/actions/movieAction";
 
 const HomeScreen = () => {
   const { token, admin } = useSelector((state) => state.auth);
-  const { data } = useSelector((state) => state.movie);
+  const { data} = useSelector((state) => state.movies);
   const dispatch = useDispatch();
 
   const handleLogout = () => {
@@ -31,8 +31,6 @@ const HomeScreen = () => {
       Alert.alert(err.response.data.error);
     }
   };
-
-
 
   useEffect(() => {
     allMovie();
@@ -69,7 +67,6 @@ const HomeScreen = () => {
           return <Trending movie={item} />;
         }}
       />
-
       <Button onPress={() => handleLogout()}>Logout</Button>
     </ScrollView>
   );

@@ -28,7 +28,10 @@ export const getMovieById = (token, videoId) => {
         authorization: token,
       },
     });
-    const data=await response.data;
-    console.log(data)
+    const data = await response.data;
+    dispatch({
+      type: "GETMOVIESBYID",
+      payload: data,
+    });
   };
 };
