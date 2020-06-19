@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { NavigationContainer, useTheme } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -11,6 +11,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { customDarkTheme } from "../colors/colors";
 import SearchScreen from "../screens/User/SearchScreen";
 import GenreScreen from "../screens/User/GenreScreen";
+import VideoScreen from "../screens/User/VideoScreen";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -26,8 +27,7 @@ const RootHome = () => {
             iconName = "home";
           } else if (route.name === "Search") {
             iconName = "search";
-          }
-          else if (route.name === "Account") {
+          } else if (route.name === "Account") {
             iconName = "account-circle";
           } else if (route.name === "Genres") {
             iconName = "movie-filter";
@@ -54,7 +54,10 @@ const Router = () => {
     <NavigationContainer theme={customDarkTheme}>
       <Stack.Navigator headerMode="none">
         {token ? (
-          <Stack.Screen name="Root" component={RootHome} />
+          <>
+            <Stack.Screen name="Root" component={RootHome} />
+            <Stack.Screen name="Video" component={VideoScreen} />
+          </>
         ) : (
           <Stack.Screen name="Auth" component={AuthScreen} />
         )}

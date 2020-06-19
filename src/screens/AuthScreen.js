@@ -116,9 +116,11 @@ const AuthScreen = () => {
   const handelScreen = () => {
     if (mode === "SignIn") {
       setMode("SignUp");
+      setisLoading(false);
       setChange("Already have an account? SingIn here");
     } else {
       setMode("SignIn");
+      setisLoading(false);
       setChange("Don't have an account? SignUp Here");
     }
   };
@@ -142,7 +144,7 @@ const AuthScreen = () => {
         await dispatch(action);
         setisLoading(false);
       } catch (err) {
-        setError(err.response.data.error);
+        setError(err.response.data.error||"Something went wrong!!");
         setisLoading(false);
       }
     } else {
@@ -157,7 +159,7 @@ const AuthScreen = () => {
         await dispatch(action);
         setisLoading(false);
       } catch (err) {
-        setError(err.response.data.error);
+        setError(err.response.data.error||"Something went wrong!!");
         setisLoading(false);
       }
     }

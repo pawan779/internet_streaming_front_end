@@ -17,7 +17,7 @@ import { myDefaultTheme, myDarkTheme } from "./src/colors/theme";
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
-  whitelist: ["auth"],
+  whitelist: ["auth","movie"],
 
 };
 

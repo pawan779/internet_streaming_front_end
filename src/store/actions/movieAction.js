@@ -18,3 +18,17 @@ export const getMovie = (token) => {
     });
   };
 };
+
+export const getMovieById = (token, videoId) => {
+  return async (dispatch) => {
+    const response = await Axios({
+      method: "get",
+      url: `${GETMOVIE}/${videoId}`,
+      headers: {
+        authorization: token,
+      },
+    });
+    const data=await response.data;
+    console.log(data)
+  };
+};
