@@ -11,6 +11,7 @@ import {
   CreateGenre,
   GetGenre,
   DeleteGenre,
+  UpdateGenre,
 } from "../../store/actions/genreAction";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
@@ -27,6 +28,8 @@ const GenreScreen = () => {
   const [modal, setModal] = useState(false);
   const [name, setName] = useState();
   const [error, setError] = useState();
+  const [title, setTitle] = useState("Save");
+  const [uId, setId] = useState();
 
   const dispatch = useDispatch();
 
@@ -59,7 +62,39 @@ const GenreScreen = () => {
     }
   };
 
-  const handleEdit = () => {};
+  const handleEdit = (item) => {
+    setName(item.name);
+    setId(item._id);
+    setTitle("Update");
+    setModal(true);
+  };
+  const handleFab = () => {
+    setName("");
+    setTitle("Save");
+    setModal(true);
+  };
+  const handleUpdate = async (uId) => {
+    let action;
+    action = UpdateGenre(name, uId, token);
+    try {
+      await dispatch(action);
+      setModal(false);
+      //for refreshing the genre
+      getGenre();
+    } catch (err) {
+      setError(err.response.data.error);
+    }
+  };
+
+  const handleChange = () => {
+    if (title === "Save") {
+      createGenre();
+      setTitle("Save");
+    } else {
+      handleUpdate(uId);
+      setTitle("Update");
+    }
+  };
 
   const createGenre = async () => {
     let action;
@@ -85,7 +120,7 @@ const GenreScreen = () => {
       style={styles.container}
     >
       <Header headerTitle="Genre" back />
-      {admin ? <Fab onPress={() => setModal(true)} /> : null}
+      {admin ? <Fab onPress={() => handleFab()} /> : null}
       <FlatList
         data={genre}
         keyExtractor={(items) => items._id}
@@ -94,7 +129,7 @@ const GenreScreen = () => {
             <CardDetails
               title={item.name}
               editable={admin ? true : false}
-              onEdit={() => handleEdit(item._id)}
+              onEdit={() => handleEdit(item)}
               onDelete={() => handleDelete(item._id)}
             />
           );
@@ -110,7 +145,8 @@ const GenreScreen = () => {
           onClose={() => setModal(false)}
           value={name}
           onChange={setName}
-          onPress={() => createGenre()}
+          title={title}
+          onPress={() => handleChange()}
           error={error}
         />
       </Modal>

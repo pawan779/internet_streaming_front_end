@@ -1,5 +1,11 @@
 import Axios from "axios";
-import { GETMOVIE, GETGENRE, CREATEGENRE, DELETEGENRE } from "../../api/api";
+import {
+  GETMOVIE,
+  GETGENRE,
+  CREATEGENRE,
+  DELETEGENRE,
+  UPDATEGENRE,
+} from "../../api/api";
 
 export const CreateGenre = (name, token) => {
   return async (dispatch) => {
@@ -38,11 +44,32 @@ export const GetGenre = (token) => {
   };
 };
 
+export const UpdateGenre = (name, id, token) => {
+  return async (dispatch) => {
+    const response = await Axios({
+      method: "put",
+      url: `${UPDATEGENRE}/${id}`,
+      data: {
+        name,
+      },
+      headers: {
+        authorization: token,
+      },
+    });
+
+    const data = await response.data;
+    dispatch({
+      type:"UPDATEGENRE",
+      payload:data
+    })
+  };
+};
 export const DeleteGenre = (id, token) => {
   return async (dispatch) => {
     const response = await Axios({
       method: "delete",
       url: `${DELETEGENRE}/${id}`,
+
       headers: {
         authorization: token,
       },
