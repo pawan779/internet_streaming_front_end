@@ -8,7 +8,11 @@ const DashboardScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Header headerMode={false} />
-      <CardDetails title="Movies" icon="movie" />
+      <CardDetails
+        title="Movies"
+        icon="movie"
+        onPress={() => navigation.navigate("Movie")}
+      />
       <CardDetails title="Users" icon="" />
       <CardDetails title="Category" icon="movie" />
     </View>

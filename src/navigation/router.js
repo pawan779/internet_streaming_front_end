@@ -13,6 +13,7 @@ import SearchScreen from "../screens/User/SearchScreen";
 import GenreScreen from "../screens/User/GenreScreen";
 import VideoScreen from "../screens/User/VideoScreen";
 import DashboardScreen from "../screens/Admin/DashboardScreen";
+import MovieScreen from "../screens/Admin/MovieScreen";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -57,7 +58,10 @@ const Router = () => {
         {token ? (
           <>
             {admin ? (
-              <Stack.Screen name="Dashboard" component={DashboardScreen} />
+              <>
+                <Stack.Screen name="Dashboard" component={DashboardScreen} />
+                <Stack.Screen name="Movie" component={MovieScreen} />
+              </>
             ) : (
               <>
                 <Stack.Screen name="Root" component={RootHome} />

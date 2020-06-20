@@ -4,7 +4,7 @@ import { Card, Title, Button } from "react-native-paper";
 import { useTheme } from "@react-navigation/native";
 import { colors } from "react-native-elements";
 
-const CardDetails = ({ title, icon, twoButton, press, dark, value }) => {
+const CardDetails = ({ title, icon, twoButton, onPress, dark, value }) => {
   const { colors } = useTheme();
   const styles = StyleSheet.create({
     card: {
@@ -22,7 +22,7 @@ const CardDetails = ({ title, icon, twoButton, press, dark, value }) => {
 
   return (
     <View>
-      <Card style={styles.card} onPress={press}>
+      <Card style={styles.card} onPress={onPress}>
         <View style={styles.view}>
           <View style={{ flexDirection: "row" }}>
             <Button icon={icon} color={colors.text} uppercase={false} >

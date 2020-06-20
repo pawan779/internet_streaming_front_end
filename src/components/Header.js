@@ -12,7 +12,7 @@ export default Header = ({ headerMode, back, title }) => {
   const { colors } = useTheme();
   const profile = useSelector((state) => state.auth.profile);
   return (
-    <View style={{ backgroundColor: colors.primary, marginBottom: 15 }}>
+    <View style={{ backgroundColor: colors.primary, marginBottom: 15,justifyContent:"center" }}>
       <View
         style={{
           marginTop: Constant.statusBarHeight,
@@ -50,12 +50,12 @@ export default Header = ({ headerMode, back, title }) => {
             />
           ) : null}
 
-          <MaterialIcons
-            name="movie"
-            size={30}
-            color={colors.icon}
+          <Image
+            source={require("../../assets/icon.png")}
             style={{
               marginLeft: 15,
+              height: 50,
+              width: 50,
             }}
           />
           <Text
@@ -86,7 +86,10 @@ export default Header = ({ headerMode, back, title }) => {
               }}
             />
             {profile.image ? (
-              <Image source={{ uri: `${baseUrl}/uploads/${profile.image}` }} style={{width:40,height:40,borderRadius:20}}/>
+              <Image
+                source={{ uri: `${baseUrl}/uploads/${profile.image}` }}
+                style={{ width: 40, height: 40, borderRadius: 20 }}
+              />
             ) : (
               <MaterialIcons name="account-circle" size={30} color="#e4e4e4" />
             )}
