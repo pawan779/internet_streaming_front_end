@@ -21,6 +21,7 @@ export const myDefaultTheme = {
     accent:"#d50000",
     text: "#000",
     placeholder: "#000",
+    background: "#fff",
     error:"red"
   },
 };

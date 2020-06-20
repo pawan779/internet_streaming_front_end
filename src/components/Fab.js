@@ -3,11 +3,11 @@ import { StyleSheet, View, Text } from "react-native";
 import { FAB } from "react-native-paper";
 import { useTheme } from "@react-navigation/native";
 
-const Fab = () => {
+const Fab = ({onPress}) => {
   const { colors } = useTheme();
   return (
     <View style={styles.container}>
-      <FAB icon="plus" color={colors.secondary} theme />
+      <FAB icon="plus" color={colors.secondary} theme onPress={onPress}/>
     </View>
   );
 };
