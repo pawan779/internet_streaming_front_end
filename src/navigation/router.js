@@ -8,10 +8,11 @@ import HomeScreen from "../screens/User/HomeScreen";
 import { useSelector } from "react-redux";
 import AccountScreen from "../screens/User/AccountScreen";
 import { MaterialIcons } from "@expo/vector-icons";
-import { customDarkTheme } from "../colors/colors";
+import { customDarkTheme, customDefaultTheme } from "../colors/colors";
 import SearchScreen from "../screens/User/SearchScreen";
 import GenreScreen from "../screens/User/GenreScreen";
 import VideoScreen from "../screens/User/VideoScreen";
+import DashboardScreen from "../screens/Admin/DashboardScreen";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -37,7 +38,7 @@ const RootHome = () => {
       })}
       tabBarOptions={{
         activeTintColor: colors.secondaryIcon,
-        inactiveTintColor: "#eaeaea",
+        inactiveTintColor: "#1e1e1e",
       }}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
@@ -51,12 +52,18 @@ const RootHome = () => {
 const Router = () => {
   const { token, admin } = useSelector((state) => state.auth);
   return (
-    <NavigationContainer theme={customDarkTheme}>
+    <NavigationContainer theme={customDefaultTheme}>
       <Stack.Navigator headerMode="none">
         {token ? (
           <>
-            <Stack.Screen name="Root" component={RootHome} />
-            <Stack.Screen name="Video" component={VideoScreen} />
+            {admin ? (
+              <Stack.Screen name="Dashboard" component={DashboardScreen} />
+            ) : (
+              <>
+                <Stack.Screen name="Root" component={RootHome} />
+                <Stack.Screen name="Video" component={VideoScreen} />
+              </>
+            )}
           </>
         ) : (
           <Stack.Screen name="Auth" component={AuthScreen} />

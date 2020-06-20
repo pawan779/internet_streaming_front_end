@@ -41,15 +41,17 @@ const HomeScreen = () => {
       <HeaderComponent />
       <FlatList
         data={data}
+        showsHorizontalScrollIndicator={false}
         horizontal
         keyExtractor={(items) => items._id}
         renderItem={({ item }) => {
           return <PosterImage movie={item} />;
         }}
       />
-      <Text>Preview</Text>
+      <Text style={styles.text}>Preview</Text>
       <FlatList
         data={data}
+        showsHorizontalScrollIndicator={false}
         horizontal
         keyExtractor={(items) => items._id}
         renderItem={({ item }) => {
@@ -57,10 +59,11 @@ const HomeScreen = () => {
         }}
       />
 
-      <Text>Trending</Text>
+      <Text style={styles.text} >Trending Now</Text>
 
       <FlatList
         data={data}
+        showsHorizontalScrollIndicator={false}
         horizontal
         keyExtractor={(items) => items._id}
         renderItem={({ item }) => {
@@ -72,5 +75,13 @@ const HomeScreen = () => {
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  text:{
+    fontSize:18,
+    fontWeight:"bold",
+    marginTop:20,
+    marginHorizontal:10,
+    marginBottom:5
+  }
+});
 export default HomeScreen;

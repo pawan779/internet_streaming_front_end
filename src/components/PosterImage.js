@@ -6,9 +6,10 @@ import {
   Dimensions,
   TouchableOpacity,
 } from "react-native";
-import { Text } from "react-native-paper";
+import { Text, Button } from "react-native-paper";
 import { baseURL } from "../api/api";
 import { useNavigation } from "@react-navigation/native";
+import { Card } from "react-native-elements";
 
 export const PosterImage = ({ movie }) => {
   return (
@@ -22,7 +23,21 @@ export const PosterImage = ({ movie }) => {
         }}
         resizeMode="stretch"
       />
-      <Text style={{ position: "absolute", bottom: 40 }}>{movie.name}</Text>
+      <View
+        style={{
+          width: "100%",
+          position: "absolute",
+          bottom: 40,
+          backgroundColor: "#e4e4e4",
+          alignItems: "center",
+          padding: 10,
+        }}
+      >
+        <Text>{movie.name}</Text>
+        <Button icon="play" mode="contained" style={{ width: 100 }}>
+          Play
+        </Button>
+      </View>
     </View>
   );
 };
@@ -35,8 +50,7 @@ export const Preview = ({ movie }) => {
         style={{
           width: 100,
           height: 100,
-          marginHorizontal: 10,
-          marginVertical: 20,
+          marginHorizontal: 7,
           borderRadius: 50,
         }}
       />
@@ -48,7 +62,7 @@ export const Trending = ({ movie }) => {
   const navigation = useNavigation();
   return (
     <TouchableOpacity
-      onPress={(() => navigation.navigate("Video", { videoId: movie._id }))}
+      onPress={() => navigation.navigate("Video", { videoId: movie._id })}
     >
       <Image
         source={{ uri: `${baseURL}/uploads/${movie.image}` }}
@@ -56,7 +70,7 @@ export const Trending = ({ movie }) => {
           width: 100,
           height: 150,
           marginHorizontal: 10,
-          marginVertical: 20,
+          borderRadius: 3,
         }}
       />
     </TouchableOpacity>

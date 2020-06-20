@@ -50,7 +50,7 @@ export const signIn = (email, password) => {
         type: "AUTH",
         payload: {
           token: data.token,
-          admin: data.admin,
+          admin: data.isAdmin,
         },
       });
     } catch (err) {

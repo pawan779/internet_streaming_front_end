@@ -4,12 +4,14 @@ import { Text } from "react-native-paper";
 import { getMovieById } from "../../store/actions/movieAction";
 import { useDispatch, useSelector } from "react-redux";
 import VideoPlayer from "../../components/VideoPlayer";
+import Loading from "../../components/Loading";
 
 const VideoScreen = ({ route }) => {
   const videoId = route.params.videoId;
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
   const { movie } = useSelector((state) => state.movies);
+  console.log(movie);
   const getVideo = async () => {
     let action;
     action = getMovieById(token, videoId);
@@ -24,11 +26,15 @@ const VideoScreen = ({ route }) => {
     getVideo();
   }, []);
   return (
-    <View>
-      <VideoPlayer videoId={movie.data.video} />
+    <View style={styles.container}>
+      {movie.data ? <VideoPlayer videoId={movie.data.video} /> : <Loading />}
     </View>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
 export default VideoScreen;
