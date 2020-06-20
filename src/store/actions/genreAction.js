@@ -1,7 +1,7 @@
 import Axios from "axios";
-import { GETMOVIE, GETGENRE, CREATEGENRE } from "../../api/api";
+import { GETMOVIE, GETGENRE, CREATEGENRE, DELETEGENRE } from "../../api/api";
 
-export const createGenre = (name, token) => {
+export const CreateGenre = (name, token) => {
   return async (dispatch) => {
     const response = await Axios({
       method: "POST",
@@ -14,11 +14,14 @@ export const createGenre = (name, token) => {
       },
     });
     const data = await response.data;
-    console.log(data);
+    dispatch({
+      type: "GENRE",
+      payload: data,
+    });
   };
 };
 
-export const getGemre = (token) => {
+export const GetGenre = (token) => {
   return async (dispatch) => {
     const response = await Axios({
       method: "get",
@@ -32,5 +35,18 @@ export const getGemre = (token) => {
       type: "GETGENRE",
       payload: data,
     });
+  };
+};
+
+export const DeleteGenre = (id, token) => {
+  return async (dispatch) => {
+    const response = await Axios({
+      method: "delete",
+      url: `${DELETEGENRE}/${id}`,
+      headers: {
+        authorization: token,
+      },
+    });
+    const data = await response.data;
   };
 };
