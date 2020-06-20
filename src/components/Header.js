@@ -6,13 +6,19 @@ import { useNavigation, useTheme } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { baseUrl } from "../api/api";
 
-export default Header = ({ headerMode, back, title }) => {
+export default Header = ({ headerMode, back, title, headerTitle }) => {
   const dispathch = useDispatch();
   const navigation = useNavigation();
   const { colors } = useTheme();
   const profile = useSelector((state) => state.auth.profile);
   return (
-    <View style={{ backgroundColor: colors.primary, marginBottom: 15,justifyContent:"center" }}>
+    <View
+      style={{
+        backgroundColor: colors.primary,
+        marginBottom: 15,
+        justifyContent: "center",
+      }}
+    >
       <View
         style={{
           marginTop: Constant.statusBarHeight,
@@ -66,7 +72,7 @@ export default Header = ({ headerMode, back, title }) => {
               fontWeight: "bold",
             }}
           >
-            {title ? title : <Text>MovieFlix</Text>}
+            {title ? title : <Text>{headerTitle || "MovieFlix"}</Text>}
           </Text>
         </View>
         {headerMode ? (

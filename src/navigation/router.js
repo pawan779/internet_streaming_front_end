@@ -62,6 +62,7 @@ const Router = () => {
                 <Stack.Screen name="Dashboard" component={DashboardScreen} />
                 <Stack.Screen name="Movie" component={MovieScreen} />
                 <Stack.Screen name="Video" component={VideoScreen} />
+                <Stack.Screen name="Genre" component={GenreScreen}/>
               </>
             ) : (
               <>

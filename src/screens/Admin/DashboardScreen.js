@@ -14,7 +14,11 @@ const DashboardScreen = ({ navigation }) => {
         onPress={() => navigation.navigate("Movie")}
       />
       <CardDetails title="Users" icon="" />
-      <CardDetails title="Category" icon="movie" />
+      <CardDetails
+        title="Genre"
+        icon="movie"
+        onPress={() => navigation.navigate("Genre")}
+      />
     </View>
   );
 };

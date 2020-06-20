@@ -1,5 +1,6 @@
-
-export const baseURL="http://192.168.1.20:3000"
-export const SIGNIN=`${baseURL}/signin`
-export const SIGNUP=`${baseURL}/signup`
-export const GETMOVIE=`${baseURL}/movie`
+export const baseURL = "http://192.168.1.20:3000";
+export const SIGNIN = `${baseURL}/signin`;
+export const SIGNUP = `${baseURL}/signup`;
+export const GETMOVIE = `${baseURL}/movie`;
+export const CREATEGENRE = `${baseURL}/genre`;
+export const GETGENRE=`${baseURL}/genre`

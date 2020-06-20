@@ -16,13 +16,17 @@ const MovieScreen = () => {
     action = getMovie(token);
     dispatch(action);
   };
+
+  const addMovie=()=>{
+    
+  }
   useEffect(() => {
     showAllMovie();
   }, []);
   return (
     <View style={styles.container}>
       <Header headerMode={false} back={true} />
-      <Fab />
+      <Fab onPress={() => addMovie()} />
       <FlatList
         data={data}
         keyExtractor={(items) => items._id}
