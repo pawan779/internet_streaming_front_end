@@ -3,14 +3,15 @@ import { View, StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
-import { VIDEOUPLOAD } from "../api/api";
+import Axios from "axios";
+import { IMAGEUPLOAD } from "../api/api";
 
-const VideoComponent = ({ onCancel, value, load, notLoad, progress }) => {
+const ImageComponent = ({ onCancel, value, load, notLoad }) => {
   const pickFromGallery = async () => {
     const { granted } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
     if (granted) {
       let data = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Videos,
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [1, 1],
         quality: 0.5,
@@ -32,7 +33,7 @@ const VideoComponent = ({ onCancel, value, load, notLoad, progress }) => {
     const { granted } = await Permissions.askAsync(Permissions.CAMERA);
     if (granted) {
       let data = await ImagePicker.launchCameraAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Videos,
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [1, 1],
         quality: 0.5,
@@ -50,29 +51,35 @@ const VideoComponent = ({ onCancel, value, load, notLoad, progress }) => {
     }
   };
 
-  const handelProgress = (event) => {
-    progress(Math.round((event.loaded * 100) / event.total));
-  };
-
-  const handleUpload = (image) => {
+  const handleUpload = async (image) => {
     load();
-    const xhr = new XMLHttpRequest();
     const fdata = new FormData();
-    fdata.append("video", image);
-    xhr.upload.addEventListener("progress", handelProgress);
-    xhr.addEventListener("load", () => {
-      progress(100);
+    fdata.append("image", image);
+    console.log(image);
 
-      var data = xhr.responseText;
-      var jasonresponse = JSON.parse(data);
-      value(jasonresponse.filename);
-
+    try {
+      const response = await Axios({
+        method: "post",
+        url: `${IMAGEUPLOAD}`,
+        data: fdata,
+      });
+      console.log(response.data);
+      value(response.data.filename);
       notLoad();
       onCancel();
-    });
+    } catch (err) {
+      console.log(err);
+    }
 
-    xhr.open("POST", `${VIDEOUPLOAD}`);
-    xhr.send(fdata);
+    // Axios({
+    //   method: "post",
+    //   url: "http://192.168.1.22:3000/upload",
+    //   body: fdata,
+    // }).then((result) => {
+    //   console.log(result.data);
+    //   value(result.data)
+    //   onCancel;
+    // });
   };
 
   return (
@@ -105,4 +112,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default VideoComponent;
+export default ImageComponent;
