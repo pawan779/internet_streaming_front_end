@@ -14,6 +14,7 @@ import GenreScreen from "../screens/User/GenreScreen";
 import VideoScreen from "../screens/User/VideoScreen";
 import DashboardScreen from "../screens/Admin/DashboardScreen";
 import MovieScreen from "../screens/Admin/MovieScreen";
+import CreateScreen from "../screens/Admin/CreateScreen";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -39,7 +40,7 @@ const RootHome = () => {
       })}
       tabBarOptions={{
         activeTintColor: colors.secondaryIcon,
-        inactiveTintColor: "#1e1e1e",
+        inactiveTintColor: "#bcbcbc",
       }}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
@@ -53,7 +54,7 @@ const RootHome = () => {
 const Router = () => {
   const { token, admin } = useSelector((state) => state.auth);
   return (
-    <NavigationContainer theme={customDefaultTheme}>
+    <NavigationContainer theme={customDarkTheme}>
       <Stack.Navigator headerMode="none">
         {token ? (
           <>
@@ -63,6 +64,7 @@ const Router = () => {
                 <Stack.Screen name="Movie" component={MovieScreen} />
                 <Stack.Screen name="Video" component={VideoScreen} />
                 <Stack.Screen name="Genre" component={GenreScreen}/>
+                <Stack.Screen name="Create" component={CreateScreen}/>
               </>
             ) : (
               <>
