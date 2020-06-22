@@ -6,3 +6,5 @@ export const CREATEGENRE = `${baseURL}/genre`;
 export const GETGENRE=`${baseURL}/genre`
 export const UPDATEGENRE=`${baseURL}/genre`
 export const DELETEGENRE=`${baseURL}/genre`
+export const IMAGEUPLOAD=`${baseURL}/upload`
+export const VIDEOUPLOAD=`${baseURL}/video-upload`

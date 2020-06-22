@@ -25,7 +25,7 @@ const MovieScreen = ({navigation}) => {
   }, []);
   return (
     <View style={styles.container}>
-      <Header headerMode={false} back={true} />
+      <Header back noImage />
       <Fab onPress={() => addMovie()} />
       <FlatList
         data={data}

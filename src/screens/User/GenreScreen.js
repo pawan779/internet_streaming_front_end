@@ -103,6 +103,7 @@ const GenreScreen = () => {
       await dispatch(action);
       setModal(false);
       setName("");
+      setError("")
       //for refreshing the genre
       getGenre();
     } catch (err) {

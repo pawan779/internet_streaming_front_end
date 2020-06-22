@@ -6,6 +6,7 @@ import * as Permissions from "expo-permissions";
 import Axios from "axios";
 import { IMAGEUPLOAD } from "../api/api";
 
+
 const ImageComponent = ({ onCancel, value, load, notLoad }) => {
   const pickFromGallery = async () => {
     const { granted } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
@@ -60,7 +61,7 @@ const ImageComponent = ({ onCancel, value, load, notLoad }) => {
     try {
       const response = await Axios({
         method: "post",
-        url: `${IMAGEUPLOAD}`,
+        url: IMAGEUPLOAD,
         data: fdata,
       });
       console.log(response.data);
@@ -71,15 +72,6 @@ const ImageComponent = ({ onCancel, value, load, notLoad }) => {
       console.log(err);
     }
 
-    // Axios({
-    //   method: "post",
-    //   url: "http://192.168.1.22:3000/upload",
-    //   body: fdata,
-    // }).then((result) => {
-    //   console.log(result.data);
-    //   value(result.data)
-    //   onCancel;
-    // });
   };
 
   return (

@@ -6,7 +6,7 @@ import { useNavigation, useTheme } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { baseUrl } from "../api/api";
 
-export default Header = ({ headerMode, back, title, headerTitle }) => {
+export default Header = ({ headerMode, back, title, headerTitle,noImage }) => {
   const dispathch = useDispatch();
   const navigation = useNavigation();
   const { colors } = useTheme();
@@ -56,19 +56,22 @@ export default Header = ({ headerMode, back, title, headerTitle }) => {
             />
           ) : null}
 
-          <Image
-            source={require("../../assets/icon.png")}
-            style={{
-              marginLeft: 15,
-              height: 50,
-              width: 50,
-            }}
-          />
+          {noImage ? null : (
+            <Image
+              source={require("../../assets/icon.png")}
+              style={{
+                marginLeft: 15,
+                height: 50,
+                width: 50,
+              }}
+            />
+          )}
+
           <Text
             style={{
-              fontSize: 22,
+              fontSize: 20,
               marginLeft: 7,
-              color: colors.icon,
+              color: colors.text,
               fontWeight: "bold",
             }}
           >
