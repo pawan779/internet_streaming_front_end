@@ -15,10 +15,11 @@ import { useSelector, useDispatch } from "react-redux";
 import ImageComponent from "../../components/ImageComponent";
 import VideoComponent from "../../components/VideoComponent";
 import { GetGenre } from "../../store/actions/genreAction";
-import MultiSelect from "react-native-multiple-select";
 import GenreComponent from "../../components/GenreComponent";
+import { useTheme } from "@react-navigation/native";
 
 const CreateScreen = () => {
+  const { colors } = useTheme();
   const [name, setName] = useState("");
   const [des, setDes] = useState("");
   const [imodal, setiModal] = useState(false);
@@ -28,7 +29,33 @@ const CreateScreen = () => {
   const [showGenre, setShowGenre] = useState(false);
   const [loading, setLoading] = useState(false);
   const [UploadProgress, setUploadProgress] = useState("");
-  const [selectedItem, setSelectedItem] = useState([]);
+  const [selectedItems, setSelectedItems] = useState([]);
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    view: {
+      padding: 20,
+    },
+    modal: {
+      padding: 20,
+      position: "absolute",
+      bottom: 0,
+      height: 150,
+      width: "100%",
+      backgroundColor: "#d7d7d7",
+    },
+    combo: {
+      height: 200,
+      width: 200,
+      alignSelf: "center",
+      padding: 10,
+      backgroundColor: colors.card,
+      overflow: "scroll",
+      borderRadius: 20,
+    },
+  });
 
   const token = useSelector((state) => state.auth.token);
   const { genre } = useSelector((state) => state.genre);
@@ -47,6 +74,17 @@ const CreateScreen = () => {
       await dispatch(action);
     } catch (err) {
       Alert.alert(err.response.data.error);
+    }
+  };
+
+  //for selecting genre
+  const selectGenre = (item) => {
+    const index = selectedItems.findIndex((i) => i.name == item.name);
+    if (index === -1) {
+      setSelectedItems([...selectedItems, item]);
+    } else {
+      selectedItems.splice(index, 1);
+      setSelectedItems([...selectedItems]);
     }
   };
 
@@ -119,7 +157,40 @@ const CreateScreen = () => {
           Select Genre
         </Button>
 
-        {showGenre && <GenreComponent data={genre} />}
+        {showGenre && (
+          <View style={styles.combo}>
+            <FlatList
+              data={genre}
+              keyExtractor={(items) => items._id}
+              renderItem={({ item }) => {
+                return (
+                  <GenreComponent
+                    data={item}
+                    onPress={() => selectGenre(item)}
+                    value={selectedItems}
+                    icon={
+                      selectedItems.findIndex((i) => i.name == item.name) > -1
+                        ? "check-box-outline"
+                        : "checkbox-blank-outline"
+                    }
+                  />
+                );
+              }}
+            />
+          </View>
+        )}
+
+        {selectedItems && (
+          <FlatList
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            data={selectedItems}
+            keyExtractor={(items) => items._id}
+            renderItem={({ item }) => {
+              return <Text style={{ margin: 5 }}> {item.name} </Text>;
+            }}
+          />
+        )}
 
         {picture ? (
           <Text>{picture}</Text>
@@ -195,20 +266,4 @@ const CreateScreen = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  view: {
-    padding: 20,
-  },
-  modal: {
-    padding: 20,
-    position: "absolute",
-    bottom: 0,
-    height: 150,
-    width: "100%",
-    backgroundColor: "#d7d7d7",
-  },
-});
 export default CreateScreen;
