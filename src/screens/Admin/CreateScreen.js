@@ -21,6 +21,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { addMovie } from "../../store/actions/movieAction";
 import MovieComponent from "../../components/MovieComponent";
 import MovieButtonComponent from "../../components/MovieButtonComponent";
+import InputComponent from "../../components/InputComponent";
 
 const CreateScreen = ({ navigation }) => {
   const { colors } = useTheme();
@@ -120,55 +121,47 @@ const CreateScreen = ({ navigation }) => {
       >
         <ScrollView>
           <View>
-            <TextInput
-              label="Movie Name"
+            <InputComponent
               value={name}
-              onChangeText={setName}
-              style={{ margin: 5 }}
+              onChange={setName}
+              label="Movie Name"
             />
-
-            <TextInput
+            <InputComponent
               label="Description"
               value={des}
-              onChangeText={setDes}
+              onChange={setDes}
               multiline={true}
-              style={{ margin: 5 }}
             />
 
-            <TextInput
+            <InputComponent
+              label="Actor"
+              value={actor}
+              onChange={setActor}
               onFocus={() =>
                 setActorMessage("For multiple actor separate with ,")
               }
-              onEndEditing={() => setActorMessage("")}
-              label="Actor"
-              value={actor}
-              onChangeText={setActor}
-              style={{ margin: 5 }}
+              onEnd={() => setActorMessage("")}
             />
+
             {actorMessage ? (
               <Text style={{ margin: 5 }}>{actorMessage}</Text>
             ) : null}
 
-            <TextInput
+            <InputComponent
               label="Duration (min)"
               value={duration}
-              keyboardType="number-pad"
-              onChangeText={setDuration}
-              style={{ margin: 5 }}
+              keyboard="number-pad"
+              onChange={setDuration}
             />
-
-            <TextInput
+            <InputComponent
               label="Release Date"
               value={release}
-              keyboardType="number-pad"
-              onChangeText={setRelease}
-              style={{ margin: 5 }}
+              keyboard="number-pad"
+              onChange={setRelease}
             />
 
-         
-
             <MovieButtonComponent
-            onGpress={() => setShowGenre(!showGenre)}
+              onGpress={() => setShowGenre(!showGenre)}
               showGenre={showGenre}
               genre={genre}
               selectedItems={selectedItems}

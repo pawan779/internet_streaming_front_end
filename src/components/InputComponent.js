@@ -18,6 +18,9 @@ const InputComponent = ({
   secure,
   visible,
   onBlur,
+  multiline,
+  onFocus,
+  onEnd,
 }) => {
   const isPassword = () => {
     if (secure) {
@@ -30,10 +33,13 @@ const InputComponent = ({
     <View>
       <TextInput
         onBlur={onBlur}
+        onFocus={onFocus}
+        onEndEditing={onEnd}
         value={value}
         onChangeText={onChange}
         label={label}
         mode={mode}
+        multiline={multiline}
         keyboardType={keyboard}
         secureTextEntry={isPassword()}
         style={{ marginVertical: 5 }}
