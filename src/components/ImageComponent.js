@@ -6,7 +6,6 @@ import * as Permissions from "expo-permissions";
 import Axios from "axios";
 import { IMAGEUPLOAD } from "../api/api";
 
-
 const ImageComponent = ({ onCancel, value, load, notLoad }) => {
   const pickFromGallery = async () => {
     const { granted } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
@@ -14,7 +13,7 @@ const ImageComponent = ({ onCancel, value, load, notLoad }) => {
       let data = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
-        aspect: [1, 1],
+        aspect: [16, 9],
         quality: 0.5,
       });
       if (!data.cancelled) {
@@ -71,7 +70,6 @@ const ImageComponent = ({ onCancel, value, load, notLoad }) => {
     } catch (err) {
       console.log(err);
     }
-
   };
 
   return (

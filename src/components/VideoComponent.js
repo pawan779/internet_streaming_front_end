@@ -34,7 +34,7 @@ const VideoComponent = ({ onCancel, value, load, notLoad, progress }) => {
       let data = await ImagePicker.launchCameraAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Videos,
         allowsEditing: true,
-        aspect: [1, 1],
+        aspect: [16, 9],
         quality: 0.5,
       });
       if (!data.cancelled) {
