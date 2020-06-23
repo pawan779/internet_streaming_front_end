@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Overlay, Rating } from "react-native-elements";
 import VideoPlayer from "../../components/VideoPlayer";
 import Loading from "../../components/Loading";
-import { useTheme } from "@react-navigation/native";
+import { useTheme, useNavigation } from "@react-navigation/native";
 import { Entypo, Feather, Ionicons } from "@expo/vector-icons";
 
 const VideoScreen = ({ route }) => {
@@ -16,9 +16,11 @@ const VideoScreen = ({ route }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [more, setMore] = useState(false);
   const dispatch = useDispatch();
+  const navigation=useNavigation();
   const { token, admin } = useSelector((state) => state.auth);
   const { movie } = useSelector((state) => state.movies);
-  let rating = parseFloat(movie.data.rating).toFixed(2);
+  console.log(movie)
+  // let rating = parseFloat(movie.data.rating).toFixed(2);
   const getVideo = async () => {
     setIsLoading(true);
     let action;
@@ -63,7 +65,7 @@ const VideoScreen = ({ route }) => {
             <Rating
               type="custom"
               imageSize={20}
-              startingValue={rating}
+              startingValue={movie.data.rating}
               readonly
               fractions={2}
               ratingBackgroundColor={colors.text}
@@ -104,7 +106,7 @@ const VideoScreen = ({ route }) => {
             >
               <Button
                 icon="circle-edit-outline"
-                // onPress={() => navigation.navigate("Edit", { video: })}
+                onPress={() => navigation.navigate("Edit", { video:movie.data })}
               >
                 Edit
               </Button>

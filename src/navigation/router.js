@@ -15,6 +15,7 @@ import VideoScreen from "../screens/User/VideoScreen";
 import DashboardScreen from "../screens/Admin/DashboardScreen";
 import MovieScreen from "../screens/Admin/MovieScreen";
 import CreateScreen from "../screens/Admin/CreateScreen";
+import EditScreen from "../screens/Admin/EditScreen";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -63,8 +64,9 @@ const Router = () => {
                 <Stack.Screen name="Dashboard" component={DashboardScreen} />
                 <Stack.Screen name="Movie" component={MovieScreen} />
                 <Stack.Screen name="Video" component={VideoScreen} />
-                <Stack.Screen name="Genre" component={GenreScreen}/>
-                <Stack.Screen name="Create" component={CreateScreen}/>
+                <Stack.Screen name="Genre" component={GenreScreen} />
+                <Stack.Screen name="Create" component={CreateScreen} />
+                <Stack.Screen name="Edit" component={EditScreen} />
               </>
             ) : (
               <>

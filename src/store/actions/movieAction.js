@@ -48,6 +48,7 @@ export const getMovieById = (token, videoId) => {
       },
     });
     const data = await response.data;
+    console.log(data)
     dispatch({
       type: "GETMOVIESBYID",
       payload: data,

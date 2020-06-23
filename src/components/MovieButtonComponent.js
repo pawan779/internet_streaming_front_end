@@ -3,6 +3,7 @@ import { StyleSheet, View, FlatList } from "react-native";
 import { Button, Text, ActivityIndicator } from "react-native-paper";
 import GenreComponent from "./GenreComponent";
 import { useTheme } from "@react-navigation/native";
+import { useEffect } from "react";
 
 const MovieButtonComponent = ({
   onGpress,
@@ -38,6 +39,7 @@ const MovieButtonComponent = ({
       borderRadius: 20,
     },
   });
+
   return (
     <View>
       <Button
@@ -60,7 +62,7 @@ const MovieButtonComponent = ({
                   onPress={() => onPress(item)}
                   value={selectedItems}
                   icon={
-                    selectedItems.findIndex((i) => i.name == item.name) > -1
+                    selectedItems.findIndex((i) => i._id == item._id) > -1
                       ? "check-box-outline"
                       : "checkbox-blank-outline"
                   }
@@ -71,7 +73,7 @@ const MovieButtonComponent = ({
         </View>
       )}
 
-      {selectedItems && (
+      {selectedItems ? (
         <View>
           <FlatList
             horizontal
@@ -79,11 +81,15 @@ const MovieButtonComponent = ({
             data={selectedItems}
             keyExtractor={(items) => items._id}
             renderItem={({ item }) => {
-              return <Text style={{ margin: 5 }}> {item.name} </Text>;
+              return (
+                <View>
+                  <Text style={{ margin: 5 }}>{item.name}</Text>
+                </View>
+              );
             }}
           />
         </View>
-      )}
+      ) : null}
 
       {picture ? (
         <Text>{picture}</Text>
