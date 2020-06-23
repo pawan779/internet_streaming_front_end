@@ -3,18 +3,13 @@ import {
   StyleSheet,
   View,
   KeyboardAvoidingView,
-  Modal,
-  FlatList,
   Alert,
 } from "react-native";
-import { TextInput, Button, ActivityIndicator, Text } from "react-native-paper";
+import {  Text } from "react-native-paper";
 import Header from "../../components/Header";
 
 import { useSelector, useDispatch } from "react-redux";
-import ImageComponent from "../../components/ImageComponent";
-import VideoComponent from "../../components/VideoComponent";
 import { GetGenre } from "../../store/actions/genreAction";
-import GenreComponent from "../../components/GenreComponent";
 import { useTheme } from "@react-navigation/native";
 import { ScrollView } from "react-native-gesture-handler";
 
@@ -24,7 +19,6 @@ import MovieButtonComponent from "../../components/MovieButtonComponent";
 import InputComponent from "../../components/InputComponent";
 
 const CreateScreen = ({ navigation }) => {
-  const { colors } = useTheme();
   const [name, setName] = useState("");
   const [des, setDes] = useState("");
   const [imodal, setiModal] = useState(false);
@@ -52,11 +46,6 @@ const CreateScreen = ({ navigation }) => {
   const token = useSelector((state) => state.auth.token);
   const { genre } = useSelector((state) => state.genre);
   const dispatch = useDispatch();
-
-  const selectedItemChange = () => {
-    setSelectedItem({ selectedItem: selectedItem });
-    console.log(selectedItem);
-  };
 
   const getGenre = async () => {
     let action;
