@@ -18,6 +18,7 @@ const MovieButtonComponent = ({
   onSubmit,
   uploadProgress,
   loading,
+  edit
 }) => {
   const { colors } = useTheme();
   const styles = StyleSheet.create({
@@ -30,7 +31,7 @@ const MovieButtonComponent = ({
       backgroundColor: "#d7d7d7",
     },
     combo: {
-      height: 200,
+      height:150,
       width: 200,
       alignSelf: "center",
       padding: 10,
@@ -73,7 +74,7 @@ const MovieButtonComponent = ({
         </View>
       )}
 
-      {selectedItems ? (
+      {selectedItems  && edit ? null:  (
         <View>
           <FlatList
             horizontal
@@ -89,11 +90,9 @@ const MovieButtonComponent = ({
             }}
           />
         </View>
-      ) : null}
+      )}
 
-      {picture ? (
-        <Text>{picture}</Text>
-      ) : (
+    
         <Button
           onPress={onIpress}
           mode="contained"
@@ -101,21 +100,19 @@ const MovieButtonComponent = ({
           icon="image"
           loading={loading}
         >
-          Upload Image
+         {picture||"Upload Image"}
         </Button>
-      )}
-      {video ? (
-        <Text>{video}</Text>
-      ) : (
+    
+    
         <Button
           onPress={onVpress}
           mode="contained"
           style={{ margin: 5 }}
           icon="video"
         >
-          Upload Movies
+          {video||"Upload Video"}
         </Button>
-      )}
+     
 
       <View style={{ flexDirection: "row" }}>
         {uploadProgress ? (

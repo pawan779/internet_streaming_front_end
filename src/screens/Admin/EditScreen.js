@@ -8,7 +8,7 @@ import { GetGenre } from "../../store/actions/genreAction";
 import { useTheme } from "@react-navigation/native";
 import { ScrollView } from "react-native-gesture-handler";
 
-import { addMovie } from "../../store/actions/movieAction";
+import { editMovie} from "../../store/actions/movieAction";
 import MovieComponent from "../../components/MovieComponent";
 import MovieButtonComponent from "../../components/MovieButtonComponent";
 import InputComponent from "../../components/InputComponent";
@@ -26,7 +26,7 @@ const EditScreen = ({ navigation, route }) => {
   const [actorMessage, setActorMessage] = useState("");
   const [duration, setDuration] = useState(data.duration);
   const [release, setRelease] = useState(data.release);
-  const [showGenre, setShowGenre] = useState(false);
+  const [showGenre, setShowGenre] = useState(true);
   const [loading, setLoading] = useState(false);
   const [UploadProgress, setUploadProgress] = useState("");
   const [selectedItems, setSelectedItems] = useState([]);
@@ -91,7 +91,8 @@ const EditScreen = ({ navigation, route }) => {
     };
 
     let action;
-    action = addMovie(token, items);
+    let id=data._id;
+    action = editMovie(id,token, items);
     try {
       await dispatch(action);
       navigation.navigate("Movie");
@@ -167,6 +168,7 @@ const EditScreen = ({ navigation, route }) => {
               uploadProgress={UploadProgress}
               loading={loading}
               getName={getName}
+              edit={true}
             />
 
             <MovieComponent

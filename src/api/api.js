@@ -3,6 +3,7 @@ export const SIGNIN = `${baseURL}/signin`;
 export const SIGNUP = `${baseURL}/signup`;
 export const GETMOVIE = `${baseURL}/movie`;
 export const ADDMOVIE = `${baseURL}/movie`;
+export const EDITMOVIE=`${baseURL}/movie`;
 export const CREATEGENRE = `${baseURL}/genre`;
 export const GETGENRE = `${baseURL}/genre`;
 export const UPDATEGENRE = `${baseURL}/genre`;
