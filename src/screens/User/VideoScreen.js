@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Alert } from "react-native";
 import { Text, Button, IconButton } from "react-native-paper";
-import { getMovieById } from "../../store/actions/movieAction";
+import { getMovieById, deleteMovie } from "../../store/actions/movieAction";
 import { useDispatch, useSelector } from "react-redux";
 import { Overlay, Rating } from "react-native-elements";
 import VideoPlayer from "../../components/VideoPlayer";
@@ -16,10 +16,9 @@ const VideoScreen = ({ route }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [more, setMore] = useState(false);
   const dispatch = useDispatch();
-  const navigation=useNavigation();
+  const navigation = useNavigation();
   const { token, admin } = useSelector((state) => state.auth);
   const { movie } = useSelector((state) => state.movies);
-  console.log(movie)
   // let rating = parseFloat(movie.data.rating).toFixed(2);
   const getVideo = async () => {
     setIsLoading(true);
@@ -28,6 +27,25 @@ const VideoScreen = ({ route }) => {
     try {
       await dispatch(action);
       setIsLoading(false);
+    } catch (err) {
+      Alert.alert(err.response.data.error);
+      setIsLoading(false);
+    }
+  };
+
+  const handleDelete = () => {
+    Alert.alert("Do you want to delete the Movie", "Movie will be deleted", [
+      { text: "Yes", onPress: () => confirmDelete() },
+      { text: "No", style: "cancel" },
+    ]);
+  };
+
+  const confirmDelete = async () => {
+    let action;
+    action = deleteMovie(movie.data._id, token);
+    try {
+      await dispatch(action);
+      navigation.navigate("Movie");
     } catch (err) {
       Alert.alert(err.response.data.error);
       setIsLoading(false);
@@ -106,11 +124,15 @@ const VideoScreen = ({ route }) => {
             >
               <Button
                 icon="circle-edit-outline"
-                onPress={() => navigation.navigate("Edit", { video:movie.data })}
+                onPress={() =>
+                  navigation.navigate("Edit", { video: movie.data })
+                }
               >
                 Edit
               </Button>
-              <Button icon="delete">Delete</Button>
+              <Button icon="delete" onPress={() => handleDelete()}>
+                Delete
+              </Button>
             </View>
           ) : null}
 

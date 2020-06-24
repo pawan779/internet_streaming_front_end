@@ -1,5 +1,5 @@
 const { default: Axios } = require("axios");
-const { GETMOVIE, ADDMOVIE,EDITMOVIE } = require("../../api/api");
+const { GETMOVIE, ADDMOVIE, EDITMOVIE,DELETEMOVIE } = require("../../api/api");
 
 export const addMovie = (token, items) => {
   return async (dispatch) => {
@@ -48,7 +48,7 @@ export const getMovieById = (token, videoId) => {
       },
     });
     const data = await response.data;
-    console.log(data)
+    console.log(data);
     dispatch({
       type: "GETMOVIESBYID",
       payload: data,
@@ -56,12 +56,11 @@ export const getMovieById = (token, videoId) => {
   };
 };
 
-
-export const editMovie = (id,token, items) => {
+export const editMovie = (id, token, items) => {
   return async (dispatch) => {
     const response = await Axios({
       method: "put",
-      url:`${EDITMOVIE}/${id}`,
+      url: `${EDITMOVIE}/${id}`,
       data: items,
       headers: {
         authorization: token,
@@ -72,6 +71,18 @@ export const editMovie = (id,token, items) => {
     dispatch({
       type: "EDITMOVIE",
       payload: data,
+    });
+  };
+};
+
+export const deleteMovie = (id, token) => {
+  return async (dispatch) => {
+    const response = await Axios({
+      method: "delete",
+      url: `${DELETEMOVIE}/${id}`,
+      headers: {
+        authorization: token,
+      },
     });
   };
 };
