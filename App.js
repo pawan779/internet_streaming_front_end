@@ -30,7 +30,7 @@ const persistedStore = persistStore(store);
 const App = () => {
   return (
     <View style={styles.container}>
-      <PaperProvider theme={myDarkTheme}>
+      <PaperProvider theme={myDefaultTheme}>
         <Router />
       </PaperProvider>
     </View>

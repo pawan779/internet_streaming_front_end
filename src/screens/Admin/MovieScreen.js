@@ -6,7 +6,7 @@ import { getMovie } from "../../store/actions/movieAction";
 import Header from "../../components/Header";
 import Fab from "../../components/Fab";
 
-const MovieScreen = ({navigation}) => {
+const MovieScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
   const { data } = useSelector((state) => state.movies);
@@ -17,9 +17,9 @@ const MovieScreen = ({navigation}) => {
     dispatch(action);
   };
 
-  const addMovie=()=>{
-    navigation.navigate("Create")
-  }
+  const addMovie = () => {
+    navigation.navigate("Create");
+  };
   useEffect(() => {
     showAllMovie();
   }, []);

@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
-import { Card, Title, Button } from "react-native-paper";
+import { Card, Title, Button, IconButton } from "react-native-paper";
 import { useTheme } from "@react-navigation/native";
 import { colors } from "react-native-elements";
 

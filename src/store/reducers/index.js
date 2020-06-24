@@ -7,7 +7,7 @@ const { combineReducers } = require("redux");
 const rootReducer = combineReducers({
   auth: authReducer,
   movies: movieReducer,
-  genre:genreReducer
+  genre: genreReducer,
 });
 
 export default rootReducer;

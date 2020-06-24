@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   StyleSheet,
   Alert,
@@ -14,13 +14,16 @@ import {
   UpdateGenre,
 } from "../../store/actions/genreAction";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
 import Loading from "../../components/Loading";
 import CardDetails from "../../components/CardDetails";
 import Header from "../../components/Header";
 import Fab from "../../components/Fab";
 import { useState } from "react";
 import InputModal from "../../components/InputModal";
+import { IconButton } from "react-native-paper";
+import { addFavourites } from "../../store/actions/favouritesAction";
+import { GETFAVOURITES } from "../../api/api";
+import Axios from "axios";
 
 const GenreScreen = () => {
   const { token, admin } = useSelector((state) => state.auth);
@@ -30,17 +33,22 @@ const GenreScreen = () => {
   const [error, setError] = useState();
   const [title, setTitle] = useState("Save");
   const [uId, setId] = useState();
+  const [selectedFav, setSelectedFav] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const dispatch = useDispatch();
 
   const getGenre = async () => {
+    setIsLoading(true);
     let action;
 
     action = GetGenre(token);
     try {
       await dispatch(action);
+      setIsLoading(false);
     } catch (err) {
       Alert.alert(err.response.data.error);
+      setIsLoading(false);
     }
   };
 
@@ -96,6 +104,20 @@ const GenreScreen = () => {
     }
   };
 
+  const handleFav = (item) => {
+    const index = selectedFav.findIndex((i) => i._id == item._id);
+    if (index === -1) {
+      setSelectedFav([...selectedFav, item]);
+    } else {
+      selectedFav.splice(index, 1);
+      setSelectedFav([...selectedFav]);
+    }
+  };
+
+  const addFav = () => {
+    addFavourites(token, selectedFav);
+  };
+
   const createGenre = async () => {
     let action;
     action = CreateGenre(name, token);
@@ -103,17 +125,41 @@ const GenreScreen = () => {
       await dispatch(action);
       setModal(false);
       setName("");
-      setError("")
+      setError("");
       //for refreshing the genre
       getGenre();
     } catch (err) {
       setError(err.response.data.error);
     }
   };
+
+  const getFav = async () => {
+    setIsLoading(true);
+    const response = await Axios({
+      method: "get",
+      url: GETFAVOURITES,
+      data,
+      headers: {
+        authorization: token,
+      },
+    });
+
+    const data = await response.data;
+    setSelectedFav(data.genre);
+    setIsLoading(false);
+  };
   useEffect(() => {
     getGenre();
+    getFav();
   }, []);
 
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1 }}>
+        <Loading />
+      </View>
+    );
+  }
   return (
     <KeyboardAvoidingView
       behavior="padding"
@@ -127,15 +173,32 @@ const GenreScreen = () => {
         keyExtractor={(items) => items._id}
         renderItem={({ item }) => {
           return (
-            <CardDetails
-              title={item.name}
-              editable={admin ? true : false}
-              onEdit={() => handleEdit(item)}
-              onDelete={() => handleDelete(item._id)}
-            />
+            <View style={{ flexDirection: "row", flex: 1 }}>
+              <View style={{ flex: 1 }}>
+                <CardDetails
+                  title={item.name}
+                  editable={admin ? true : false}
+                  onEdit={() => handleEdit(item)}
+                  onDelete={() => handleDelete(item)}
+                />
+              </View>
+
+              <IconButton
+                icon={
+                  selectedFav.findIndex((i) => i._id == item._id) > -1
+                    ? "star"
+                    : "star-outline"
+                }
+                color="red"
+                style={{ marginLeft: -40 }}
+                onPress={() => handleFav(item)}
+                onPressOut={() => addFav()}
+              />
+            </View>
           );
         }}
       />
+
       <Modal
         visible={modal}
         animationType="slide"

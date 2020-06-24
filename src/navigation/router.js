@@ -55,7 +55,7 @@ const RootHome = () => {
 const Router = () => {
   const { token, admin } = useSelector((state) => state.auth);
   return (
-    <NavigationContainer theme={customDarkTheme}>
+    <NavigationContainer theme={customDefaultTheme}>
       <Stack.Navigator headerMode="none">
         {token ? (
           <>

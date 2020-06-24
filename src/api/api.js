@@ -11,3 +11,5 @@ export const UPDATEGENRE = `${baseURL}/genre`;
 export const DELETEGENRE = `${baseURL}/genre`;
 export const IMAGEUPLOAD = `${baseURL}/upload`;
 export const VIDEOUPLOAD = `${baseURL}/video-upload`;
+export const ADDFAVOURITES= `${baseURL}/favourite`
+export const GETFAVOURITES=`${baseURL}/favourite`

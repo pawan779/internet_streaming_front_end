@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "internet_streaming_frontend",
-    "slug": "internet_streaming_frontend",
+    "name": "movieFlix",
+    "slug": "movieFlix",
     "platforms": [
       "ios",
       "android",
