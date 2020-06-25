@@ -15,11 +15,12 @@ const VideoScreen = ({ route }) => {
   const { colors } = useTheme();
   const [isLoading, setIsLoading] = useState(true);
   const [more, setMore] = useState(false);
+  const [showReview, setShowReview] = useState(false);
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const { token, admin } = useSelector((state) => state.auth);
   const { movie } = useSelector((state) => state.movies);
-  // let rating = parseFloat(movie.data.rating).toFixed(2);
+  let rating = parseFloat(movie.rating).toFixed(2);
   const getVideo = async () => {
     setIsLoading(true);
     let action;
@@ -42,7 +43,7 @@ const VideoScreen = ({ route }) => {
 
   const confirmDelete = async () => {
     let action;
-    action = deleteMovie(movie.data._id, token);
+    action = deleteMovie(movie._id, token);
     try {
       await dispatch(action);
       navigation.navigate("Movie");
@@ -66,7 +67,7 @@ const VideoScreen = ({ route }) => {
 
   return (
     <View style={styles.container}>
-      <VideoPlayer videoId={movie.data.video} />
+      <VideoPlayer videoId={movie.video} />
 
       <View>
         <View style={{ padding: 10 }}>
@@ -77,13 +78,13 @@ const VideoScreen = ({ route }) => {
               fontWeight: "bold",
             }}
           >
-            {movie.data.name}
+            {movie.name}
           </Text>
           <View style={{ flexDirection: "row" }}>
             <Rating
               type="custom"
               imageSize={20}
-              startingValue={movie.data.rating}
+              startingValue={rating}
               readonly
               fractions={2}
               ratingBackgroundColor={colors.text}
@@ -101,7 +102,7 @@ const VideoScreen = ({ route }) => {
           >
             <Feather name="eye" size={20} color={colors.text} />
             <Text style={{ marginTop: 10, marginLeft: 15 }}>
-              {movie.data.views} Views
+              {movie.views} Views
             </Text>
           </View>
 
@@ -110,11 +111,11 @@ const VideoScreen = ({ route }) => {
           >
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <IconButton uppercase={false} icon="calendar-month-outline" />
-              <Text>{movie.data.release}</Text>
+              <Text>{movie.release}</Text>
             </View>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <IconButton uppercase={false} icon="camera-timer" />
-              <Text>{movie.data.duration} minutes</Text>
+              <Text>{movie.duration} minutes</Text>
             </View>
           </View>
           {admin ? (
@@ -124,9 +125,7 @@ const VideoScreen = ({ route }) => {
             >
               <Button
                 icon="circle-edit-outline"
-                onPress={() =>
-                  navigation.navigate("Edit", { video: movie.data })
-                }
+                onPress={() => navigation.navigate("Edit", { video: movie })}
               >
                 Edit
               </Button>
@@ -138,7 +137,7 @@ const VideoScreen = ({ route }) => {
 
           {more ? (
             <Text style={{ padding: 10, fontSize: 15, color: colors.text }}>
-              {movie.data.description}
+              {movie.description}
             </Text>
           ) : (
             <Text
@@ -147,7 +146,7 @@ const VideoScreen = ({ route }) => {
               numberOfLines={2}
               style={{ color: colors.text }}
             >
-              {movie.data.description}
+              {movie.description}
             </Text>
           )}
 
@@ -172,7 +171,7 @@ const VideoScreen = ({ route }) => {
             icon="comment-text-multiple"
             onPress={() => setShowReview(true)}
           >
-            Reviews ({movie.data.review.length})
+            Reviews ({movie.review.length})
           </Button>
         </View>
       </View>
