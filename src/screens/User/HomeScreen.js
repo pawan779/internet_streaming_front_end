@@ -56,7 +56,7 @@ const HomeScreen = () => {
       await dispatch(action);
       setIsLoading(false);
     } catch (err) {
-      Alert.alert(err.response.data.error);
+      console.log(err);
       setIsLoading(false);
     }
   };
@@ -108,23 +108,21 @@ const HomeScreen = () => {
         }}
       />
 
-      {
-        (fav =="" ? null : (
-          <View>
-            <Text style={styles.text}>Recommended</Text>
+      {fav == "" ? null : (
+        <View>
+          <Text style={styles.text}>Recommended</Text>
 
-            <FlatList
-              data={fav}
-              showsHorizontalScrollIndicator={false}
-              horizontal
-              keyExtractor={(items) => items._id}
-              renderItem={({ item }) => {
-                return <Trending movie={item} />;
-              }}
-            />
-          </View>
-        ))
-      }
+          <FlatList
+            data={fav}
+            showsHorizontalScrollIndicator={false}
+            horizontal
+            keyExtractor={(items) => items._id}
+            renderItem={({ item }) => {
+              return <Trending movie={item} />;
+            }}
+          />
+        </View>
+      )}
 
       <Text style={styles.text}>Trending Now</Text>
 

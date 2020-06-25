@@ -94,14 +94,7 @@ export default Header = ({ headerMode, back, title, headerTitle,noImage }) => {
                 navigation.navigate("Search");
               }}
             />
-            {profile.image ? (
-              <Image
-                source={{ uri: `${baseUrl}/uploads/${profile.image}` }}
-                style={{ width: 40, height: 40, borderRadius: 20 }}
-              />
-            ) : (
-              <MaterialIcons name="account-circle" size={30} color="#e4e4e4" />
-            )}
+        
           </View>
         ) : null}
       </View>
