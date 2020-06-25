@@ -10,9 +10,7 @@ import {
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import Constant from "expo-constants";
 import { useNavigation, useTheme } from "@react-navigation/native";
-import { useDispatch } from "react-redux";
-import { search } from "../store/actions/search";
-import { useSearch } from "../hooks/useSearch";
+
 
 const SearchBar = ({ value, onChange, onSubmit }) => {
   const navigation = useNavigation();
@@ -59,11 +57,15 @@ const {colors}=useTheme();
           placeholder="Search movie"
           placeholderTextColor="#d0d0d0"
           keyboardType="web-search"
+          autoFocus={true}
           onChangeText={onChange}
           style={{
             flex: 1,
             fontSize: 18,
             color: "#fff",
+            borderBottomWidth:.4,
+            borderColor:"#d0d0d0",
+            paddingBottom:5
           }}
           onEndEditing={onSubmit}
         />

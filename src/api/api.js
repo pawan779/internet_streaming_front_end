@@ -15,3 +15,4 @@ export const VIDEOUPLOAD = `${baseURL}/video-upload`;
 export const ADDFAVOURITES= `${baseURL}/favourite`
 export const GETFAVOURITES=`${baseURL}/favourite`
 export const GETFAVOURITEMOVIE=`${baseURL}/movie/favourite/movie`
+export const SEARCH=`${baseURL}/movie/search`

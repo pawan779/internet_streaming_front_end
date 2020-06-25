@@ -1,7 +1,14 @@
 import React from "react";
-import { StyleSheet, View, Text, TouchableOpacity, Image, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+} from "react-native";
 import { useNavigation, useTheme } from "@react-navigation/native";
-import { Entypo,Feather } from "@expo/vector-icons";
+import { Entypo, Feather } from "@expo/vector-icons";
 import { baseURL } from "../api/api";
 
 const SearchResult = ({ data }) => {
@@ -58,7 +65,9 @@ const SearchResult = ({ data }) => {
             </Text>
             <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
               <Feather name="eye" size={20} color={colors.text} />
-              <Text style={{ color: colors.text, marginTop: 10 ,marginLeft:10}}>
+              <Text
+                style={{ color: colors.text, marginTop: 10, marginLeft: 10 }}
+              >
                 {data.views} Views
               </Text>
             </View>
