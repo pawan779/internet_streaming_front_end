@@ -1,5 +1,5 @@
 import Axios from "axios";
-import { ADDFAVOURITES, GETFAVOURITES } from "../../api/api";
+import { ADDFAVOURITES, GETFAVOURITES, GETFAVOURITEMOVIE } from "../../api/api";
 
 export const addFavourites = async (token, data) => {
   const response = await Axios({
@@ -10,6 +10,24 @@ export const addFavourites = async (token, data) => {
       authorization: token,
     },
   });
+};
+
+export const getFavouriteMovie = (token) => {
+  return async (dispatch) => {
+    const response = await Axios({
+      method: "get",
+      url: GETFAVOURITEMOVIE,
+      headers: {
+        authorization: token,
+      },
+    });
+
+    const data = await response.data;
+    dispatch({
+      type: "GETFAVOURITEMOVIE",
+      payload: data,
+    });
+  };
 };
 
 // export const getFavourites = (token) => {

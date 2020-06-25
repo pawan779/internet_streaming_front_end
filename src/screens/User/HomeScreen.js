@@ -1,19 +1,29 @@
-import React from "react";
-import { StyleSheet,View, ScrollView, Alert, FlatList } from "react-native";
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  Alert,
+  FlatList,
+  RefreshControl,
+} from "react-native";
 import { Text, Button } from "react-native-paper";
 import { useSelector, useDispatch } from "react-redux";
 import { Logout } from "../../store/actions/authAction";
 import HeaderComponent from "../../components/HeaderComponent";
 import { PosterImage, Preview, Trending } from "../../components/PosterImage";
-import Axios from "axios";
 import { useEffect } from "react";
 import { getMovie } from "../../store/actions/movieAction";
-import { useState } from "react";
 import Loading from "../../components/Loading";
+import { getFavouriteMovie } from "../../store/actions/favouritesAction";
 
 const HomeScreen = () => {
-  const { token, admin } = useSelector((state) => state.auth);
   const [isLoading, setIsLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const { token, admin } = useSelector((state) => state.auth);
+  const fav = useSelector((state) => state.favourite);
+
   const { data } = useSelector((state) => state.movies);
   const dispatch = useDispatch();
 
@@ -38,20 +48,45 @@ const HomeScreen = () => {
     }
   };
 
+  const favourite = async () => {
+    setIsLoading(true);
+    let action;
+    action = getFavouriteMovie(token);
+    try {
+      await dispatch(action);
+      setIsLoading(false);
+    } catch (err) {
+      Alert.alert(err.response.data.error);
+      setIsLoading(false);
+    }
+  };
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    favourite();
+    allMovie();
+    setRefreshing(false);
+  };
+
   useEffect(() => {
+    favourite();
     allMovie();
   }, []);
 
   if (isLoading) {
     return (
-      <View style={{flex:1}}>
+      <View style={{ flex: 1 }}>
         <Loading />
       </View>
     );
   }
 
   return (
-    <ScrollView>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
       <HeaderComponent />
       <FlatList
         data={data}
@@ -72,6 +107,24 @@ const HomeScreen = () => {
           return <Preview movie={item} />;
         }}
       />
+
+      {
+        (fav =="" ? null : (
+          <View>
+            <Text style={styles.text}>Recommended</Text>
+
+            <FlatList
+              data={fav}
+              showsHorizontalScrollIndicator={false}
+              horizontal
+              keyExtractor={(items) => items._id}
+              renderItem={({ item }) => {
+                return <Trending movie={item} />;
+              }}
+            />
+          </View>
+        ))
+      }
 
       <Text style={styles.text}>Trending Now</Text>
 

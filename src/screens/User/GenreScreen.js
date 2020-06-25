@@ -182,18 +182,19 @@ const GenreScreen = () => {
                   onDelete={() => handleDelete(item)}
                 />
               </View>
-
-              <IconButton
-                icon={
-                  selectedFav.findIndex((i) => i._id == item._id) > -1
-                    ? "star"
-                    : "star-outline"
-                }
-                color="red"
-                style={{ marginLeft: -40 }}
-                onPress={() => handleFav(item)}
-                onPressOut={() => addFav()}
-              />
+              {!admin && (
+                <IconButton
+                  icon={
+                    selectedFav.findIndex((i) => i._id == item._id) > -1
+                      ? "star"
+                      : "star-outline"
+                  }
+                  color="red"
+                  style={{ marginLeft: -40 }}
+                  onPress={() => handleFav(item)}
+                  onPressOut={() => addFav()}
+                />
+              )}
             </View>
           );
         }}
