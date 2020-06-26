@@ -2,7 +2,7 @@ const initialState = {
   data: [],
   movie: [],
   add: [],
-  edit:[]
+  edit: [],
 };
 
 export const movieReducer = (state = initialState, action) => {
@@ -22,11 +22,11 @@ export const movieReducer = (state = initialState, action) => {
         ...state,
         movie: action.payload,
       };
-case "EDITMOVIE":
-return{
-  ...state,
-edit:action.payload
-}
+    case "EDITMOVIE":
+      return {
+        ...state,
+        edit: action.payload,
+      };
     default:
       return state;
   }

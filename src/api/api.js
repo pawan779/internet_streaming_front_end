@@ -18,3 +18,4 @@ export const GETFAVOURITEMOVIE = `${baseURL}/movie/favourite/movie`;
 export const SEARCH = `${baseURL}/movie/search`;
 export const ADDREVIEW = `${baseURL}/movie/review`;
 export const USERDETAILS=`${baseURL}/me`
+export const UPDATEVIEWS=`${baseURL}/movie/views`

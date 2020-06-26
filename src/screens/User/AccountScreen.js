@@ -2,12 +2,13 @@ import React from "react";
 import { StyleSheet, View, Text, Alert } from "react-native";
 import CardDetails from "../../components/CardDetails";
 import Header from "../../components/Header";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Logout } from "../../store/actions/authAction";
 import { changeTheme } from "../../store/actions/themeAction";
 
 const AccountScreen = () => {
   const dispatch = useDispatch();
+  const theme=useSelector(state=>state.theme)
 
   const handelLogOut = () => {
     Alert.alert("Are you sure ?", "You have to login again", [
@@ -37,6 +38,7 @@ const AccountScreen = () => {
       <CardDetails
         title="Theme"
         twoButton={true}
+        dark={theme?"dark":"light"}
         icon="white-balance-sunny"
         onPress={handleTheme}
       />

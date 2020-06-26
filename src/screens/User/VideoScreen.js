@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Alert, Modal, FlatList } from "react-native";
 import { Text, Button, IconButton } from "react-native-paper";
-import { getMovieById, deleteMovie } from "../../store/actions/movieAction";
+import { deleteMovie, updateViews } from "../../store/actions/movieAction";
 import { useDispatch, useSelector } from "react-redux";
 import { Overlay, Rating } from "react-native-elements";
 import VideoPlayer from "../../components/VideoPlayer";
@@ -12,7 +12,7 @@ import ReviewDetails from "../../components/ReviewDetails";
 import Review from "../../components/Review";
 
 const VideoScreen = ({ route }) => {
-  const videoId = route.params.videoId;
+  const item = route.params.item;
 
   const { colors } = useTheme();
   const [isLoading, setIsLoading] = useState(true);
@@ -24,10 +24,11 @@ const VideoScreen = ({ route }) => {
   const { token, admin } = useSelector((state) => state.auth);
   const { movie } = useSelector((state) => state.movies);
   let rating = parseFloat(movie.rating).toFixed(2);
+
   const getVideo = async () => {
     setIsLoading(true);
     let action;
-    action = getMovieById(token, videoId);
+    action = updateViews(token, item);
     try {
       await dispatch(action);
       setIsLoading(false);
