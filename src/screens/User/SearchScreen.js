@@ -1,15 +1,17 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text, FlatList } from "react-native";
-import Header from "../../components/Header";
+import { StyleSheet, View, FlatList } from "react-native";
+import { Text } from "react-native-paper";
 import SearchBar from "../../components/SearchBar";
 import Axios from "axios";
 import { SEARCH } from "../../api/api";
 import { useSelector } from "react-redux";
 import SearchResult from "../../components/SearchResult";
+import { useEffect } from "react";
 
 const SearchScreen = () => {
   const [value, setValue] = useState("");
   const [result, setResult] = useState("");
+  const [error, setError] = useState("");
   const { token } = useSelector((state) => state.auth);
 
   const handleSubmit = async () => {
@@ -20,9 +22,22 @@ const SearchScreen = () => {
         authorization: token,
       },
     });
-    const data = await response.data;
-    setResult(data);
+    try {
+      const data = await response.data;
+      setError("");
+      if (data == "") {
+        setError(`Search Result for ${value}: Not found`);
+      } else {
+        setResult(data);
+      }
+    } catch (err) {
+      setError(err.response.data.error);
+      console.log(err.response.data.error);
+    }
   };
+  useEffect(() => {
+    setResult("");
+  }, []);
   return (
     <View style={styles.container}>
       <SearchBar
@@ -30,14 +45,17 @@ const SearchScreen = () => {
         onChange={setValue}
         onSubmit={() => handleSubmit()}
       />
-
-      <FlatList
-        data={result}
-        keyExtractor={(items) => items._id}
-        renderItem={({ item }) => {
-          return <SearchResult data={item} />;
-        }}
-      />
+      {error ? (
+        <Text style={{ color: "red" }}>{error}</Text>
+      ) : (
+        <FlatList
+          data={result}
+          keyExtractor={(items) => items._id}
+          renderItem={({ item }) => {
+            return <SearchResult data={item} />;
+          }}
+        />
+      )}
     </View>
   );
 };

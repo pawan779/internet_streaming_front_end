@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Alert } from "react-native";
+import { StyleSheet, View, Alert, Modal, FlatList } from "react-native";
 import { Text, Button, IconButton } from "react-native-paper";
 import { getMovieById, deleteMovie } from "../../store/actions/movieAction";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,6 +8,8 @@ import VideoPlayer from "../../components/VideoPlayer";
 import Loading from "../../components/Loading";
 import { useTheme, useNavigation } from "@react-navigation/native";
 import { Entypo, Feather, Ionicons } from "@expo/vector-icons";
+import ReviewDetails from "../../components/ReviewDetails";
+import Review from "../../components/Review";
 
 const VideoScreen = ({ route }) => {
   const videoId = route.params.videoId;
@@ -15,11 +17,13 @@ const VideoScreen = ({ route }) => {
   const { colors } = useTheme();
   const [isLoading, setIsLoading] = useState(true);
   const [more, setMore] = useState(false);
+  const [showReview, setShowReview] = useState(false);
+  const [modal, setModal] = useState(false);
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const { token, admin } = useSelector((state) => state.auth);
   const { movie } = useSelector((state) => state.movies);
-  // let rating = parseFloat(movie.data.rating).toFixed(2);
+  let rating = parseFloat(movie.rating).toFixed(2);
   const getVideo = async () => {
     setIsLoading(true);
     let action;
@@ -42,7 +46,7 @@ const VideoScreen = ({ route }) => {
 
   const confirmDelete = async () => {
     let action;
-    action = deleteMovie(movie.data._id, token);
+    action = deleteMovie(movie._id, token);
     try {
       await dispatch(action);
       navigation.navigate("Movie");
@@ -66,116 +70,154 @@ const VideoScreen = ({ route }) => {
 
   return (
     <View style={styles.container}>
-      <VideoPlayer videoId={movie.data.video} />
-
-      <View>
-        <View style={{ padding: 10 }}>
-          <Text
-            style={{
-              padding: 10,
-              fontSize: 17,
-              fontWeight: "bold",
-            }}
-          >
-            {movie.data.name}
-          </Text>
-          <View style={{ flexDirection: "row" }}>
-            <Rating
-              type="custom"
-              imageSize={20}
-              startingValue={movie.data.rating}
-              readonly
-              fractions={2}
-              ratingBackgroundColor={colors.text}
-              ratingColor="orange"
-              tintColor={colors.secondary}
-            />
-            <Text style={{ fontSize: 18, marginLeft: 5 }}></Text>
-          </View>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "flex-end",
-              marginVertical: 5,
-            }}
-          >
-            <Feather name="eye" size={20} color={colors.text} />
-            <Text style={{ marginTop: 10, marginLeft: 15 }}>
-              {movie.data.views} Views
-            </Text>
-          </View>
-
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-around" }}
-          >
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <IconButton uppercase={false} icon="calendar-month-outline" />
-              <Text>{movie.data.release}</Text>
-            </View>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <IconButton uppercase={false} icon="camera-timer" />
-              <Text>{movie.data.duration} minutes</Text>
-            </View>
-          </View>
-          {admin ? (
-            <View
-              flexDirection="row"
-              style={{ justifyContent: "space-around" }}
-            >
-              <Button
-                icon="circle-edit-outline"
-                onPress={() =>
-                  navigation.navigate("Edit", { video: movie.data })
-                }
-              >
-                Edit
-              </Button>
-              <Button icon="delete" onPress={() => handleDelete()}>
-                Delete
-              </Button>
-            </View>
-          ) : null}
-
-          {more ? (
-            <Text style={{ padding: 10, fontSize: 15, color: colors.text }}>
-              {movie.data.description}
-            </Text>
-          ) : (
+      <VideoPlayer videoId={movie.video} />
+      {!showReview ? (
+        <View>
+          <View style={{ padding: 10 }}>
             <Text
-              style={{ padding: 10, fontSize: 15 }}
-              ellipsizeMode="tail"
-              numberOfLines={2}
-              style={{ color: colors.text }}
+              style={{
+                padding: 10,
+                fontSize: 17,
+                fontWeight: "bold",
+              }}
             >
-              {movie.data.description}
+              {movie.name}
             </Text>
-          )}
+            <View style={{ flexDirection: "row" }}>
+              <Rating
+                type="custom"
+                imageSize={20}
+                startingValue={rating}
+                readonly
+                fractions={2}
+                ratingBackgroundColor={colors.text}
+                ratingColor="orange"
+                tintColor={colors.secondary}
+              />
+              <Text style={{ fontSize: 18, marginLeft: 5 }}></Text>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "flex-end",
+                marginVertical: 5,
+              }}
+            >
+              <Feather name="eye" size={20} color={colors.text} />
+              <Text style={{ marginTop: 10, marginLeft: 15 }}>
+                {movie.views} Views
+              </Text>
+            </View>
 
-          <Button
-            icon={more ? "chevron-up" : "chevron-down"}
-            onPress={() => setMore(!more)}
-            uppercase={false}
-          >
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-around" }}
+            >
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <IconButton uppercase={false} icon="calendar-month-outline" />
+                <Text>{movie.release}</Text>
+              </View>
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <IconButton uppercase={false} icon="camera-timer" />
+                <Text>{movie.duration} minutes</Text>
+              </View>
+            </View>
+            {admin ? (
+              <View
+                flexDirection="row"
+                style={{ justifyContent: "space-around" }}
+              >
+                <Button
+                  icon="circle-edit-outline"
+                  onPress={() => navigation.navigate("Edit", { video: movie })}
+                >
+                  Edit
+                </Button>
+                <Button icon="delete" onPress={() => handleDelete()}>
+                  Delete
+                </Button>
+              </View>
+            ) : null}
+
             {more ? (
-              <Text style={{ fontSize: 17, fontWeight: "bold", marginTop: 10 }}>
-                View Less
+              <Text style={{ padding: 10, fontSize: 15, color: colors.text }}>
+                {movie.description}
               </Text>
             ) : (
-              <Text style={{ fontSize: 17, fontWeight: "bold", marginTop: 10 }}>
-                View More
+              <Text
+                style={{ padding: 10, fontSize: 15 }}
+                ellipsizeMode="tail"
+                numberOfLines={2}
+                style={{ color: colors.text }}
+              >
+                {movie.description}
               </Text>
             )}
-          </Button>
 
-          <Button
-            mode="contained"
-            icon="comment-text-multiple"
-            onPress={() => setShowReview(true)}
-          >
-            Reviews ({movie.data.review.length})
-          </Button>
+            <Button
+              icon={more ? "chevron-up" : "chevron-down"}
+              onPress={() => setMore(!more)}
+              uppercase={false}
+            >
+              {more ? (
+                <Text
+                  style={{ fontSize: 17, fontWeight: "bold", marginTop: 10 }}
+                >
+                  View Less
+                </Text>
+              ) : (
+                <Text
+                  style={{ fontSize: 17, fontWeight: "bold", marginTop: 10 }}
+                >
+                  View More
+                </Text>
+              )}
+            </Button>
+
+            <Button
+              mode="contained"
+              icon="comment-text-multiple"
+              onPress={() => setShowReview(true)}
+            >
+              Reviews ({movie.review.length})
+            </Button>
+          </View>
         </View>
-      </View>
+      ) : (
+        <>
+          <View style={{ flexDirection: "row" }}>
+            <Ionicons
+              name="md-arrow-back"
+              size={30}
+              color={colors.text}
+              style={{
+                marginHorizontal: 10,
+                alignSelf: "center",
+              }}
+              onPress={() => setShowReview(false)}
+            />
+            <Button
+              uppercase={false}
+              mode="contained"
+              icon="comment-text-multiple"
+              onPress={() => setModal(true)}
+              style={{ flex: 1 }}
+            >
+              Write a review
+            </Button>
+          </View>
+          <Overlay isVisible={modal} onBackdropPress={() => setModal(false)}>
+            <Review id={movie._id} back={setModal} />
+          </Overlay>
+
+          <FlatList
+            data={movie.review}
+            keyExtractor={(items) => items._id}
+            renderItem={({ item }) => {
+              return <ReviewDetails value={item} />;
+            }}
+          />
+        </>
+      )}
     </View>
   );
 };
