@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, Alert } from "react-native";
 import { TextInput, Button } from "react-native-paper";
 import { Rating } from "react-native-elements";
 import Axios from "axios";
-import { REVIEWADD } from "../api/api";
+import {ADDREVIEW } from "../api/api";
 import { useSelector } from "react-redux";
 import { useTheme } from "@react-navigation/native";
 
@@ -24,7 +24,7 @@ const Review = ({ id, back }) => {
     try {
       const response = await Axios({
         method: "post",
-        url: `${REVIEWADD}/${id}`,
+        url: `${ADDREVIEW}/${id}`,
         data: {
           message: review,
           rating,

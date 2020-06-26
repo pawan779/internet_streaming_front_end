@@ -1,13 +1,37 @@
-import React from 'react'
-import { StyleSheet, View, Text } from 'react-native'
-    
+import React from "react";
+import { StyleSheet, View, Text, Alert } from "react-native";
+import CardDetails from "../../components/CardDetails";
+import Header from "../../components/Header";
+import { useDispatch } from "react-redux";
+import { Logout } from "../../store/actions/authAction";
+
 const AccountScreen = () => {
-    return (
+  const dispatch = useDispatch();
+
+  const handelLogOut = () => {
+    Alert.alert("Are you sure ?", "You have to login again", [
+      { text: "No", onPress: () => console.log("false") },
+      { text: "Yes", onPress: logOut },
+    ]);
+  };
+
+  const logOut = () => {
+    let action = Logout();
+    dispatch(action);
+  };
+  return (
     <View>
-    
+      <Header headerTitle="Account" />
+      <CardDetails title="Theme" twoButton={true} icon="white-balance-sunny" />
+      <CardDetails
+        title="Profile"
+        icon="account"
+        // press={() => navigation.navigate("Profile")}
+      />
+      <CardDetails title="Logout" icon="logout" onPress={handelLogOut} />
     </View>
-      );
+  );
 };
-    
+
 const styles = StyleSheet.create({});
-export default  AccountScreen;
+export default AccountScreen;

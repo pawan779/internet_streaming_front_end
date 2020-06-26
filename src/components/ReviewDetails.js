@@ -4,8 +4,6 @@ import { useTheme } from "@react-navigation/native";
 import { useUserDetails } from "../hooks/useUserDetails";
 import { Card, DarkTheme, Button } from "react-native-paper";
 import { Overlay, Rating } from "react-native-elements";
-import Review from "./Review";
-import { FlatList } from "react-native-gesture-handler";
 import { MaterialIcons } from "@expo/vector-icons";
 
 const ReviewDetails = ({ value }) => {
@@ -38,7 +36,7 @@ const ReviewDetails = ({ value }) => {
             // }}
           />
           <View>
-          <Text style={{ color: colors.text }}>{result.email}</Text>
+            <Text style={{ color: colors.text }}>{result.email}</Text>
             <Rating
               type="custom"
               imageSize={15}
