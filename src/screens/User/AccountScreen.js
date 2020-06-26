@@ -4,6 +4,7 @@ import CardDetails from "../../components/CardDetails";
 import Header from "../../components/Header";
 import { useDispatch } from "react-redux";
 import { Logout } from "../../store/actions/authAction";
+import { changeTheme } from "../../store/actions/themeAction";
 
 const AccountScreen = () => {
   const dispatch = useDispatch();
@@ -19,10 +20,26 @@ const AccountScreen = () => {
     let action = Logout();
     dispatch(action);
   };
+
+  const handleTheme = async () => {
+    let action;
+    action = changeTheme();
+    try {
+      await dispatch(action);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <View>
       <Header headerTitle="Account" />
-      <CardDetails title="Theme" twoButton={true} icon="white-balance-sunny" />
+      <CardDetails
+        title="Theme"
+        twoButton={true}
+        icon="white-balance-sunny"
+        onPress={handleTheme}
+      />
       <CardDetails
         title="Profile"
         icon="account"
