@@ -69,6 +69,7 @@ const HomeScreen = () => {
   };
 
   useEffect(() => {
+    onRefresh();
     favourite();
     allMovie();
   }, []);

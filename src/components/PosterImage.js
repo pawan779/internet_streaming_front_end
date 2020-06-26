@@ -62,7 +62,7 @@ export const Trending = ({ movie }) => {
   const navigation = useNavigation();
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate("Video", { videoId: movie._id })}
+      onPress={() => navigation.navigate("Video", { item: movie })}
     >
       <Image
         source={{ uri: `${baseURL}/uploads/${movie.image}` }}

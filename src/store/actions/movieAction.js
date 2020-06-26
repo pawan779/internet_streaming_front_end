@@ -1,5 +1,11 @@
 const { default: Axios } = require("axios");
-const { GETMOVIE, ADDMOVIE, EDITMOVIE,DELETEMOVIE } = require("../../api/api");
+const {
+  GETMOVIE,
+  ADDMOVIE,
+  EDITMOVIE,
+  DELETEMOVIE,
+  UPDATEVIEWS,
+} = require("../../api/api");
 
 export const addMovie = (token, items) => {
   return async (dispatch) => {
@@ -83,6 +89,26 @@ export const deleteMovie = (id, token) => {
       headers: {
         authorization: token,
       },
+    });
+  };
+};
+
+export const updateViews = (token, item) => {
+  return async (dispatch) => {
+    const response = await Axios({
+      method: "put",
+      url: `${UPDATEVIEWS}/${item._id}`,
+      data: {
+        views: item.views + 1,
+      },
+      headers: {
+        authorization: token,
+      },
+    });
+    const data = await response.data;
+    dispatch({
+      type: "GETMOVIESBYID",
+      payload: data,
     });
   };
 };
