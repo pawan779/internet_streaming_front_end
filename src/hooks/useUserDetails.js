@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 export const useUserDetails = () => {
   const [result, setResult] = useState("");
   const { token } = useSelector((state) => state.auth);
-  const UserDetails = async (id) => {
+  const UserDetails = async () => {
     const response = await Axios({
       method: "get",
       url: USERDETAILS,

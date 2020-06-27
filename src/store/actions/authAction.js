@@ -1,5 +1,5 @@
 import Axios from "axios";
-import { SIGNUP, SIGNIN } from "../../api/api";
+import { SIGNUP, SIGNIN, USERDETAILS } from "../../api/api";
 
 export const signUp = (email, password) => {
   return async (dispatch) => {
@@ -62,5 +62,41 @@ export const signIn = (email, password) => {
 export const Logout = () => {
   return (dispach) => {
     dispach({ type: "LOGOUT" });
+  };
+};
+
+export const getProfile = (token) => {
+  return async (dispatch) => {
+    const response = await Axios({
+      method: "get",
+      url: USERDETAILS,
+      headers: {
+        authorization: token,
+      },
+    });
+
+    const data = await response.data;
+    dispatch({
+      type: "GETDETAILS",
+      payload: data,
+    });
+  };
+};
+export const updateProfile = (token, data) => {
+  return async (dispatch) => {
+    const response = await Axios({
+      method: "put",
+      url: USERDETAILS,
+      data,
+      headers: {
+        authorization: token,
+      },
+    });
+
+    const data = await response.data;
+    dispatch({
+      type: "GETDETAILS",
+      payload: data,
+    });
   };
 };

@@ -6,9 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { Logout } from "../../store/actions/authAction";
 import { changeTheme } from "../../store/actions/themeAction";
 
-const AccountScreen = () => {
+const AccountScreen = ({navigation}) => {
   const dispatch = useDispatch();
-  const theme=useSelector(state=>state.theme)
+  const theme = useSelector((state) => state.theme);
 
   const handelLogOut = () => {
     Alert.alert("Are you sure ?", "You have to login again", [
@@ -38,14 +38,14 @@ const AccountScreen = () => {
       <CardDetails
         title="Theme"
         twoButton={true}
-        dark={theme?"dark":"light"}
+        dark={theme ? "dark" : "light"}
         icon="white-balance-sunny"
         onPress={handleTheme}
       />
       <CardDetails
         title="Profile"
         icon="account"
-        // press={() => navigation.navigate("Profile")}
+        onPress={() => navigation.navigate("Profile")}
       />
       <CardDetails title="Logout" icon="logout" onPress={handelLogOut} />
     </View>

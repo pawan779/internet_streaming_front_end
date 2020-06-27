@@ -16,11 +16,12 @@ import { useEffect } from "react";
 import { getMovie } from "../../store/actions/movieAction";
 import Loading from "../../components/Loading";
 import { getFavouriteMovie } from "../../store/actions/favouritesAction";
+import { useTheme } from "@react-navigation/native";
 
 const HomeScreen = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
-
+  const { colors } = useTheme();
   const { token, admin } = useSelector((state) => state.auth);
   const fav = useSelector((state) => state.favourite);
 
@@ -69,7 +70,6 @@ const HomeScreen = () => {
   };
 
   useEffect(() => {
-    onRefresh();
     favourite();
     allMovie();
   }, []);
@@ -85,7 +85,13 @@ const HomeScreen = () => {
   return (
     <ScrollView
       refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          title="Pull to refresh"
+          tintColor={colors.text}
+          titleColor={colors.text}
+        />
       }
     >
       <HeaderComponent />

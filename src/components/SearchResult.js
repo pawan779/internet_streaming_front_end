@@ -18,7 +18,7 @@ const SearchResult = ({ data }) => {
     <View style={styles.container}>
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate("Video", { videoId: data._id });
+          navigation.navigate("Video", { item: data});
         }}
       >
         <View

@@ -16,6 +16,7 @@ import DashboardScreen from "../screens/Admin/DashboardScreen";
 import MovieScreen from "../screens/Admin/MovieScreen";
 import CreateScreen from "../screens/Admin/CreateScreen";
 import EditScreen from "../screens/Admin/EditScreen";
+import ProfileScreen from "../screens/User/ProfileScreen";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -73,6 +74,7 @@ const Router = () => {
               <>
                 <Stack.Screen name="Root" component={RootHome} />
                 <Stack.Screen name="Video" component={VideoScreen} />
+                <Stack.Screen name="Profile" component={ProfileScreen}/>
               </>
             )}
           </>

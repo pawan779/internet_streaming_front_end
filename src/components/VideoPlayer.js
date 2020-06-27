@@ -6,7 +6,6 @@ import { baseURL } from "../api/api";
 
 const VideoPlayer = ({ videoId }) => {
   const { colors } = useTheme();
-  console.log(videoId)
   return (
     <View>
       <Video
