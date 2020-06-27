@@ -1,5 +1,5 @@
 import Axios from "axios";
-import { SIGNUP, SIGNIN, USERDETAILS } from "../../api/api";
+import { SIGNUP, SIGNIN, USERDETAILS, UPDATEUSER } from "../../api/api";
 
 export const signUp = (email, password) => {
   return async (dispatch) => {
@@ -76,18 +76,19 @@ export const getProfile = (token) => {
     });
 
     const data = await response.data;
+
     dispatch({
       type: "GETDETAILS",
       payload: data,
     });
   };
 };
-export const updateProfile = (token, data) => {
+export const updateProfile = (token, user) => {
   return async (dispatch) => {
     const response = await Axios({
       method: "put",
-      url: USERDETAILS,
-      data,
+      url: UPDATEUSER,
+      data: user,
       headers: {
         authorization: token,
       },

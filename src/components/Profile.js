@@ -8,7 +8,7 @@ import { Card } from "react-native-elements";
 import { Title, Button } from "react-native-paper";
 import CardDetails from "./CardDetails";
 import Loading from "./Loading";
-import { baseUrl } from "../api/api";
+import { baseUrl, UPLOAD } from "../api/api";
 import { useSelector } from "react-redux";
 
 const Profile = ({ data, onPress }) => {
@@ -18,7 +18,7 @@ const Profile = ({ data, onPress }) => {
     <View>
       {data.image ? (
         <Image
-          source={{ uri: `${baseUrl}/uploads/${data.image}` }}
+          source={{ uri: `${UPLOAD}/${data.image}` }}
           style={{
             width: 150,
             height: 150,

@@ -1,5 +1,5 @@
-import React, { Fragment } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import React from "react";
+import { StyleSheet } from "react-native";
 import { NavigationContainer, useTheme } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -17,6 +17,7 @@ import MovieScreen from "../screens/Admin/MovieScreen";
 import CreateScreen from "../screens/Admin/CreateScreen";
 import EditScreen from "../screens/Admin/EditScreen";
 import ProfileScreen from "../screens/User/ProfileScreen";
+import ProfileUpdateScreen from "../screens/User/ProfileUpdateScreen";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -74,7 +75,11 @@ const Router = () => {
               <>
                 <Stack.Screen name="Root" component={RootHome} />
                 <Stack.Screen name="Video" component={VideoScreen} />
-                <Stack.Screen name="Profile" component={ProfileScreen}/>
+                <Stack.Screen name="Profile" component={ProfileScreen} />
+                <Stack.Screen
+                  name="ProfileUpdate"
+                  component={ProfileUpdateScreen}
+                />
               </>
             )}
           </>

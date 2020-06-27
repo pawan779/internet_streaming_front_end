@@ -13,7 +13,6 @@ const ImageComponent = ({ onCancel, value, load, notLoad }) => {
       let data = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
-        aspect: [16, 9],
         quality: 0.5,
       });
       if (!data.cancelled) {
