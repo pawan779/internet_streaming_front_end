@@ -8,7 +8,7 @@ import { GetGenre } from "../../store/actions/genreAction";
 import { useTheme } from "@react-navigation/native";
 import { ScrollView } from "react-native-gesture-handler";
 
-import { editMovie} from "../../store/actions/movieAction";
+import { editMovie } from "../../store/actions/movieAction";
 import MovieComponent from "../../components/MovieComponent";
 import MovieButtonComponent from "../../components/MovieButtonComponent";
 import InputComponent from "../../components/InputComponent";
@@ -91,8 +91,8 @@ const EditScreen = ({ navigation, route }) => {
     };
 
     let action;
-    let id=data._id;
-    action = editMovie(id,token, items);
+    let id = data._id;
+    action = editMovie(id, token, items);
     try {
       await dispatch(action);
       navigation.navigate("Movie");
@@ -108,85 +108,76 @@ const EditScreen = ({ navigation, route }) => {
   return (
     <View style={styles.container}>
       <Header back headerTitle="Add Movie" noImage />
-      <KeyboardAvoidingView
-        behavior="padding"
-        keyboardVerticalOffset={50}
-        style={styles.view}
-      >
-        <ScrollView>
-          <View>
-            <InputComponent
-              value={name}
-              onChange={setName}
-              label="Movie Name"
-            />
-            <InputComponent
-              label="Description"
-              value={des}
-              onChange={setDes}
-              multiline={true}
-            />
 
-            <InputComponent
-              label="Actor"
-              value={actor}
-              onChange={setActor}
-              onFocus={() =>
-                setActorMessage("For multiple actor separate with ,")
-              }
-              onEnd={() => setActorMessage("")}
-            />
+      <ScrollView style={styles.container}>
+        <View>
+          <InputComponent value={name} onChange={setName} label="Movie Name" />
+          <InputComponent
+            label="Description"
+            value={des}
+            onChange={setDes}
+            multiline={true}
+          />
 
-            {actorMessage ? (
-              <Text style={{ margin: 5 }}>{actorMessage}</Text>
-            ) : null}
+          <InputComponent
+            label="Actor"
+            value={actor}
+            onChange={setActor}
+            onFocus={() =>
+              setActorMessage("For multiple actor separate with ,")
+            }
+            onEnd={() => setActorMessage("")}
+          />
 
-            <InputComponent
-              label="Duration (min)"
-              value={duration}
-              keyboard="number-pad"
-              onChange={setDuration}
-            />
-            <InputComponent
-              label="Release Date"
-              value={release}
-              keyboard="number-pad"
-              onChange={setRelease}
-            />
+          {actorMessage ? (
+            <Text style={{ margin: 5 }}>{actorMessage}</Text>
+          ) : null}
 
-            <MovieButtonComponent
-              onGpress={() => setShowGenre(!showGenre)}
-              showGenre={showGenre}
-              genre={genre}
-              selectedItems={selectedItems}
-              onPress={selectGenre}
-              picture={picture}
-              onIpress={() => setiModal(true)}
-              video={video}
-              onVpress={() => setvModal(true)}
-              onSubmit={() => handleSubmit()}
-              uploadProgress={UploadProgress}
-              loading={loading}
-              getName={getName}
-              edit={true}
-            />
+          <InputComponent
+            label="Duration (min)"
+            value={duration}
+            keyboard="number-pad"
+            onChange={setDuration}
+          />
+          <InputComponent
+            label="Release Date"
+            value={release}
+            keyboard="number-pad"
+            onChange={setRelease}
+          />
 
-            <MovieComponent
-              imodal={imodal}
-              onIcancel={() => setiModal(false)}
-              iValue={setPicture}
-              onIload={() => setLoading(true)}
-              onInotLoad={() => setLoading(false)}
-              vmodal={vmodal}
-              onVcancel={() => setvModal(false)}
-              vValue={setVideo}
-              onVload={() => setLoading(true)}
-              onVnotLoad={() => setLoading(false)}
-              progress={setUploadProgress}
-            />
-          </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
+          <MovieButtonComponent
+            onGpress={() => setShowGenre(!showGenre)}
+            showGenre={showGenre}
+            genre={genre}
+            selectedItems={selectedItems}
+            onPress={selectGenre}
+            picture={picture}
+            onIpress={() => setiModal(true)}
+            video={video}
+            onVpress={() => setvModal(true)}
+            onSubmit={() => handleSubmit()}
+            uploadProgress={UploadProgress}
+            loading={loading}
+            getName={getName}
+            edit={true}
+          />
+
+          <MovieComponent
+            imodal={imodal}
+            onIcancel={() => setiModal(false)}
+            iValue={setPicture}
+            onIload={() => setLoading(true)}
+            onInotLoad={() => setLoading(false)}
+            vmodal={vmodal}
+            onVcancel={() => setvModal(false)}
+            vValue={setVideo}
+            onVload={() => setLoading(true)}
+            onVnotLoad={() => setLoading(false)}
+            progress={setUploadProgress}
+          />
+        </View>
+      </ScrollView>
     </View>
   );
 };

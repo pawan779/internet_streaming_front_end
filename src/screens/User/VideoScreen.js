@@ -10,6 +10,7 @@ import { useTheme, useNavigation } from "@react-navigation/native";
 import { Entypo, Feather, Ionicons } from "@expo/vector-icons";
 import ReviewDetails from "../../components/ReviewDetails";
 import Review from "../../components/Review";
+import { ScrollView } from "react-native-gesture-handler";
 
 const VideoScreen = ({ route }) => {
   const item = route.params.item;
@@ -73,29 +74,30 @@ const VideoScreen = ({ route }) => {
     <View style={styles.container}>
       <VideoPlayer videoId={movie.video} />
       {!showReview ? (
-        <View>
+        <ScrollView>
           <View style={{ padding: 10 }}>
-            <Text
-              style={{
-                padding: 10,
-                fontSize: 17,
-                fontWeight: "bold",
-              }}
-            >
-              {movie.name}
-            </Text>
-            <View style={{ flexDirection: "row" }}>
-              <Rating
-                type="custom"
-                imageSize={20}
-                startingValue={rating}
-                readonly
-                fractions={2}
-                ratingBackgroundColor={colors.text}
-                ratingColor="orange"
-                tintColor={colors.secondary}
-              />
-              <Text style={{ fontSize: 18, marginLeft: 5 }}></Text>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Text
+                style={{
+                  padding: 10,
+                  fontSize: 17,
+                  fontWeight: "bold",
+                }}
+              >
+                {movie.name}
+              </Text>
+              <View style={{ flexDirection: "row" }}>
+                <Rating
+                  type="custom"
+                  imageSize={20}
+                  startingValue={rating}
+                  readonly
+                  fractions={2}
+                  ratingBackgroundColor="#1e1e1e"
+                  ratingColor="orange"
+                  tintColor={colors.secondary}
+                />
+              </View>
             </View>
             <View
               style={{
@@ -109,7 +111,7 @@ const VideoScreen = ({ route }) => {
                 {movie.views} Views
               </Text>
             </View>
-
+            <Text>Actor: {movie.actor}</Text>
             <View
               style={{ flexDirection: "row", justifyContent: "space-around" }}
             >
@@ -182,7 +184,7 @@ const VideoScreen = ({ route }) => {
               Reviews ({movie.review.length})
             </Button>
           </View>
-        </View>
+        </ScrollView>
       ) : (
         <>
           <View style={{ flexDirection: "row" }}>

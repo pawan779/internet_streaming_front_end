@@ -17,7 +17,7 @@ const ProfileScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const handleCheck = () => {
-    if (!data.name || !data.image|| !data.address || !data.phone) {
+    if (!data.name || !data.image || !data.address || !data.phone) {
       setIncomplete("Please update your details. The user data is incomplete");
     }
   };
@@ -48,7 +48,7 @@ const ProfileScreen = ({ navigation }) => {
     );
   }
   return (
-    <View>
+    <View style={styles.container}>
       <Header back headerTitle="Profile" noImage />
       <Profile
         data={data}
@@ -61,5 +61,9 @@ const ProfileScreen = ({ navigation }) => {
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
 export default ProfileScreen;

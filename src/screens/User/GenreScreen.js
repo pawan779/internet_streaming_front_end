@@ -24,6 +24,7 @@ import { IconButton } from "react-native-paper";
 import { addFavourites } from "../../store/actions/favouritesAction";
 import { GETFAVOURITES } from "../../api/api";
 import Axios from "axios";
+import { colors } from "react-native-elements";
 
 const GenreScreen = () => {
   const { token, admin } = useSelector((state) => state.auth);
@@ -189,7 +190,11 @@ const GenreScreen = () => {
                       ? "star"
                       : "star-outline"
                   }
-                  color="red"
+                  color={
+                    selectedFav.findIndex((i) => i._id == item._id) > -1
+                      ? "red"
+                      : colors.text
+                  }
                   style={{ marginLeft: -40 }}
                   onPress={() => handleFav(item)}
                   onPressOut={() => addFav()}

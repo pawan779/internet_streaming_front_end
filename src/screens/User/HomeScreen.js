@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import { Text, Button } from "react-native-paper";
 import { useSelector, useDispatch } from "react-redux";
-import { Logout } from "../../store/actions/authAction";
 import HeaderComponent from "../../components/HeaderComponent";
 import { PosterImage, Preview, Trending } from "../../components/PosterImage";
 import { useEffect } from "react";
@@ -27,12 +26,6 @@ const HomeScreen = () => {
 
   const { data } = useSelector((state) => state.movies);
   const dispatch = useDispatch();
-
-  const handleLogout = () => {
-    let action;
-    action = Logout();
-    dispatch(action);
-  };
 
   //to get movie
 
@@ -142,7 +135,6 @@ const HomeScreen = () => {
           return <Trending movie={item} />;
         }}
       />
-      <Button onPress={() => handleLogout()}>Logout</Button>
     </ScrollView>
   );
 };
