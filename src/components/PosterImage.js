@@ -6,7 +6,7 @@ import {
   Dimensions,
   TouchableOpacity,
 } from "react-native";
-import { Text, Button, Card } from "react-native-paper";
+import { Text, Button, Card, IconButton } from "react-native-paper";
 import { baseURL } from "../api/api";
 import { useNavigation, useTheme } from "@react-navigation/native";
 import { color } from "react-native-reanimated";
@@ -44,14 +44,30 @@ export const PosterImage = ({ movie }) => {
         >
           {movie.name}
         </Text>
-        <Button
-          icon="play"
-          mode="contained"
-          style={{ width: 100, alignSelf: "center" }}
-          onPress={() => navigation.navigate("Video", { item: movie })}
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-around",
+            width: "100%",
+          }}
         >
-          Play
-        </Button>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <IconButton uppercase={false} icon="calendar-month-outline" size={20}/>
+            <Text>{movie.release}</Text>
+          </View>
+          <Button
+            icon="play"
+            mode="contained"
+            style={{ width: 100, alignSelf: "center" }}
+            onPress={() => navigation.navigate("Video", { item: movie })}
+          >
+            Play
+          </Button>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <IconButton uppercase={false} icon="camera-timer" size={20} />
+            <Text>{movie.duration} min</Text>
+          </View>
+        </View>
       </View>
 
       <View
