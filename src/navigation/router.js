@@ -18,6 +18,7 @@ import CreateScreen from "../screens/Admin/CreateScreen";
 import EditScreen from "../screens/Admin/EditScreen";
 import ProfileScreen from "../screens/User/ProfileScreen";
 import ProfileUpdateScreen from "../screens/User/ProfileUpdateScreen";
+import GenreVideoScreen from "../screens/User/GenreVideoScreen";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -80,6 +81,7 @@ const Router = () => {
                   name="ProfileUpdate"
                   component={ProfileUpdateScreen}
                 />
+                <Stack.Screen name="GenreVideo" component={GenreVideoScreen}/>
               </>
             )}
           </>

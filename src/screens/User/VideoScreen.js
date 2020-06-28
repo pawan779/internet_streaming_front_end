@@ -76,7 +76,13 @@ const VideoScreen = ({ route }) => {
       {!showReview ? (
         <ScrollView>
           <View style={{ padding: 10 }}>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+               
+              }}
+            >
               <Text
                 style={{
                   padding: 10,
@@ -99,6 +105,7 @@ const VideoScreen = ({ route }) => {
                 />
               </View>
             </View>
+
             <View
               style={{
                 flexDirection: "row",

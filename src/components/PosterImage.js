@@ -12,6 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Card } from "react-native-elements";
 
 export const PosterImage = ({ movie }) => {
+  console.log(movie.genre)
   return (
     <View>
       <Image
@@ -25,12 +26,11 @@ export const PosterImage = ({ movie }) => {
       />
       <View
         style={{
-          width: "100%",
           position: "absolute",
           bottom: 40,
-          backgroundColor: "#e4e4e4",
-          alignItems: "center",
           padding: 10,
+          zIndex: 1,
+          alignSelf: "center",
         }}
       >
         <Text>{movie.name}</Text>
@@ -38,6 +38,17 @@ export const PosterImage = ({ movie }) => {
           Play
         </Button>
       </View>
+
+      <View
+        style={{
+          width: "100%",
+          position: "absolute",
+          bottom: 30,
+          height: 100,
+          backgroundColor: "#000",
+          opacity: 0.5,
+        }}
+      ></View>
     </View>
   );
 };

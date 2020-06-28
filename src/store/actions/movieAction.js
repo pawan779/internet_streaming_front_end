@@ -5,6 +5,7 @@ const {
   EDITMOVIE,
   DELETEMOVIE,
   UPDATEVIEWS,
+  GETMOVIEBYGENRE,
 } = require("../../api/api");
 
 export const addMovie = (token, items) => {
@@ -108,6 +109,25 @@ export const updateViews = (token, item) => {
     const data = await response.data;
     dispatch({
       type: "GETMOVIESBYID",
+      payload: data,
+    });
+  };
+};
+
+export const getMovieByGenre = (id, token) => {
+  console.log(id)
+  return async (dispatch) => {
+    const response = await Axios({
+      method: "get",
+      url: `${GETMOVIEBYGENRE}/${id}`,
+      headers: {
+        authorization: token,
+      },
+    });
+
+    const data = await response.data;
+    dispatch({
+      type: "GETMOVIEBYGENRE",
       payload: data,
     });
   };

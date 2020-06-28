@@ -3,6 +3,7 @@ const initialState = {
   movie: [],
   add: [],
   edit: [],
+  genre: [],
 };
 
 export const movieReducer = (state = initialState, action) => {
@@ -26,6 +27,11 @@ export const movieReducer = (state = initialState, action) => {
       return {
         ...state,
         edit: action.payload,
+      };
+    case "GETMOVIEBYGENRE":
+      return {
+        ...state,
+        genre: action.payload,
       };
     default:
       return state;

@@ -12,7 +12,6 @@ const ProfileScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const { token, data } = useSelector((state) => state.auth);
-  console.log(token, data);
 
   const dispatch = useDispatch();
 

@@ -26,7 +26,7 @@ import { GETFAVOURITES } from "../../api/api";
 import Axios from "axios";
 import { colors } from "react-native-elements";
 
-const GenreScreen = () => {
+const GenreScreen = ({ navigation }) => {
   const { token, admin } = useSelector((state) => state.auth);
   const { genre } = useSelector((state) => state.genre);
   const [modal, setModal] = useState(false);
@@ -93,6 +93,10 @@ const GenreScreen = () => {
     } catch (err) {
       setError(err.response.data.error);
     }
+  };
+
+  const handlePress = (genre) => {
+    navigation.navigate("GenreVideo", { genreId: genre });
   };
 
   const handleChange = () => {
@@ -181,6 +185,7 @@ const GenreScreen = () => {
                   editable={admin ? true : false}
                   onEdit={() => handleEdit(item)}
                   onDelete={() => handleDelete(item)}
+                  onPress={() => handlePress(item._id)}
                 />
               </View>
               {!admin && (
