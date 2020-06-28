@@ -20,4 +20,6 @@ export const ADDREVIEW = `${baseURL}/movie/review`;
 export const USERDETAILS = `${baseURL}/me`;
 export const UPDATEUSER = `${baseURL}/me`;
 export const UPDATEVIEWS = `${baseURL}/movie/views`;
-export const GETMOVIEBYGENRE= `${baseURL}/movie/genre`;
+export const GETMOVIEBYGENRE = `${baseURL}/movie/genre`;
+export const TRENDINGMOVIE = `${baseURL}/movie/trending/movie`;
+export const LATESTMOVIE = `${baseURL}/movie/latest/movie`;

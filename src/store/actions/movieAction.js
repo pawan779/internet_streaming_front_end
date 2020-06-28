@@ -6,6 +6,8 @@ const {
   DELETEMOVIE,
   UPDATEVIEWS,
   GETMOVIEBYGENRE,
+  TRENDINGMOVIE,
+  LATESTMOVIE
 } = require("../../api/api");
 
 export const addMovie = (token, items) => {
@@ -115,7 +117,7 @@ export const updateViews = (token, item) => {
 };
 
 export const getMovieByGenre = (id, token) => {
-  console.log(id)
+  console.log(id);
   return async (dispatch) => {
     const response = await Axios({
       method: "get",
@@ -128,6 +130,54 @@ export const getMovieByGenre = (id, token) => {
     const data = await response.data;
     dispatch({
       type: "GETMOVIEBYGENRE",
+      payload: data,
+    });
+  };
+};
+
+export const trendingMovie = (token) => {
+
+  return async (dispatch) => {
+    const response = await Axios({
+      method: "get",
+      url: TRENDINGMOVIE,
+      headers: {
+        authorization: token,
+      },
+    });
+
+    const data = await response.data;
+    dispatch({
+      type: "TRENDINGMOVIE",
+      payload: data,
+    });
+  };
+};
+
+export const getLatestMovie = (token) => {
+
+  return async (dispatch) => {
+    const response = await Axios({
+      method: "get",
+      url: LATESTMOVIE,
+      headers: {
+        authorization: token,
+      },
+    });
+
+    const data = await response.data;
+    dispatch({
+      type: "LATESTMOVIE",
+      payload: data,
+    });
+  };
+};
+
+export const recentlyWatched = (data) => {
+  console.log("data is" + data);
+  return async (dispatch) => {
+    dispatch({
+      type: "RECENTLYWATCHED",
       payload: data,
     });
   };

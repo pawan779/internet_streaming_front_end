@@ -10,12 +10,22 @@ import {
 import { Text, Button } from "react-native-paper";
 import { useSelector, useDispatch } from "react-redux";
 import HeaderComponent from "../../components/HeaderComponent";
-import { PosterImage, Preview, Trending } from "../../components/PosterImage";
+import {
+  PosterImage,
+  Trending,
+  Genre,
+  Latest,
+} from "../../components/PosterImage";
 import { useEffect } from "react";
-import { getMovie } from "../../store/actions/movieAction";
+import {
+  getMovie,
+  trendingMovie,
+  getLatestMovie,
+} from "../../store/actions/movieAction";
 import Loading from "../../components/Loading";
 import { getFavouriteMovie } from "../../store/actions/favouritesAction";
 import { useTheme } from "@react-navigation/native";
+import { GetGenre } from "../../store/actions/genreAction";
 
 const HomeScreen = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -23,8 +33,9 @@ const HomeScreen = () => {
   const { colors } = useTheme();
   const { token, admin } = useSelector((state) => state.auth);
   const fav = useSelector((state) => state.favourite);
+  const { genre } = useSelector((state) => state.genre);
 
-  const { data } = useSelector((state) => state.movies);
+  const { data, trending, latest } = useSelector((state) => state.movies);
   const dispatch = useDispatch();
 
   //to get movie
@@ -42,6 +53,44 @@ const HomeScreen = () => {
     }
   };
 
+  const trendingMovies = async () => {
+    setIsLoading(true);
+    let action;
+    action = trendingMovie(token);
+    try {
+      await dispatch(action);
+      setIsLoading(false);
+    } catch (err) {
+      Alert.alert(err.response.data.error);
+      setIsLoading(false);
+    }
+  };
+
+  const latestMovies = async () => {
+    setIsLoading(true);
+    let action;
+    action = getLatestMovie(token);
+    try {
+      await dispatch(action);
+      setIsLoading(false);
+    } catch (err) {
+      Alert.alert(err.response.data.error);
+      setIsLoading(false);
+    }
+  };
+
+  const allGenre = async () => {
+    setIsLoading(true);
+    let action;
+    action = GetGenre(token);
+    try {
+      await dispatch(action);
+      setIsLoading(false);
+    } catch (err) {
+      Alert.alert(err.response.data.error);
+      setIsLoading(false);
+    }
+  };
   const favourite = async () => {
     setIsLoading(true);
     let action;
@@ -59,12 +108,18 @@ const HomeScreen = () => {
     setRefreshing(true);
     favourite();
     allMovie();
+    allGenre();
+    trendingMovies();
+    latestMovies();
     setRefreshing(false);
   };
 
   useEffect(() => {
     favourite();
     allMovie();
+    allGenre();
+    trendingMovies();
+    latestMovies();
   }, []);
 
   if (isLoading) {
@@ -97,14 +152,14 @@ const HomeScreen = () => {
           return <PosterImage movie={item} />;
         }}
       />
-      <Text style={styles.text}>Preview</Text>
+      <Text style={styles.text}>Genre</Text>
       <FlatList
-        data={data}
+        data={genre}
         showsHorizontalScrollIndicator={false}
         horizontal
         keyExtractor={(items) => items._id}
         renderItem={({ item }) => {
-          return <Preview movie={item} />;
+          return <Genre genre={item} />;
         }}
       />
 
@@ -127,12 +182,24 @@ const HomeScreen = () => {
       <Text style={styles.text}>Trending Now</Text>
 
       <FlatList
-        data={data}
+        data={trending}
         showsHorizontalScrollIndicator={false}
         horizontal
         keyExtractor={(items) => items._id}
         renderItem={({ item }) => {
           return <Trending movie={item} />;
+        }}
+      />
+
+      <Text style={styles.text}>Latest Movies</Text>
+
+      <FlatList
+        data={latest}
+        showsHorizontalScrollIndicator={false}
+        horizontal
+        keyExtractor={(items) => items._id}
+        renderItem={({ item }) => {
+          return <Latest movie={item} />;
         }}
       />
     </ScrollView>

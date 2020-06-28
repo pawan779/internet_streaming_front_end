@@ -7,9 +7,13 @@ import { Card, ActivityIndicator, Button } from "react-native-paper";
 import ImageComponent from "../../components/ImageComponent";
 import InputComponent from "../../components/InputComponent";
 import { updateProfile } from "../../store/actions/authAction";
+import { colors } from "react-native-elements";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { useTheme } from "@react-navigation/native";
 
 const ProfileUpdateScreen = ({ navigation, route }) => {
   const data = route.params.data;
+  const { colors } = useTheme();
   const token = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
 
@@ -37,10 +41,9 @@ const ProfileUpdateScreen = ({ navigation, route }) => {
     }
   };
 
-
   return (
-    <View style={{flex:1,padding:20}}>
-      <Card onPress={() => setModal(true)}>
+    <View style={{ flex: 1, padding: 20 }}>
+      <TouchableOpacity onPress={() => setModal(true)}>
         {data.image ? (
           <Image
             source={{ uri: `${UPLOAD}/${image}` }}
@@ -56,12 +59,12 @@ const ProfileUpdateScreen = ({ navigation, route }) => {
           <MaterialIcons
             name="account-circle"
             size={100}
-            color="#1e1e1e"
+            color={colors.text}
             style={{ alignSelf: "center", marginTop: 75 }}
           />
         )}
         <ActivityIndicator animating={loading} size="small" />
-      </Card>
+      </TouchableOpacity>
       <InputComponent label="name" value={name} onChange={setName} />
       <InputComponent label="address" value={address} onChange={setAddress} />
       <InputComponent label="phone" value={phone} onChange={setPhone} />

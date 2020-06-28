@@ -4,6 +4,9 @@ const initialState = {
   add: [],
   edit: [],
   genre: [],
+  watched: [],
+  trending: [],
+  latest: [],
 };
 
 export const movieReducer = (state = initialState, action) => {
@@ -32,6 +35,21 @@ export const movieReducer = (state = initialState, action) => {
       return {
         ...state,
         genre: action.payload,
+      };
+    case "RECENTLYWATCHED":
+      return {
+        ...state,
+        watched: action.payload,
+      };
+    case "TRENDINGMOVIE":
+      return {
+        ...state,
+        trending: action.payload,
+      };
+    case "LATESTMOVIE":
+      return {
+        ...state,
+        latest: action.payload,
       };
     default:
       return state;

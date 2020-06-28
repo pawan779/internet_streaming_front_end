@@ -6,13 +6,14 @@ import {
   Dimensions,
   TouchableOpacity,
 } from "react-native";
-import { Text, Button } from "react-native-paper";
+import { Text, Button, Card } from "react-native-paper";
 import { baseURL } from "../api/api";
-import { useNavigation } from "@react-navigation/native";
-import { Card } from "react-native-elements";
+import { useNavigation, useTheme } from "@react-navigation/native";
+import { color } from "react-native-reanimated";
+import { colors } from "react-native-elements";
 
 export const PosterImage = ({ movie }) => {
-  console.log(movie.genre)
+  const navigation = useNavigation();
   return (
     <View>
       <Image
@@ -33,8 +34,22 @@ export const PosterImage = ({ movie }) => {
           alignSelf: "center",
         }}
       >
-        <Text>{movie.name}</Text>
-        <Button icon="play" mode="contained" style={{ width: 100 }}>
+        <Text
+          style={{
+            color: "#fff",
+            fontSize: 20,
+            margin: 10,
+            alignSelf: "center",
+          }}
+        >
+          {movie.name}
+        </Text>
+        <Button
+          icon="play"
+          mode="contained"
+          style={{ width: 100, alignSelf: "center" }}
+          onPress={() => navigation.navigate("Video", { item: movie })}
+        >
           Play
         </Button>
       </View>
@@ -53,19 +68,22 @@ export const PosterImage = ({ movie }) => {
   );
 };
 
-export const Preview = ({ movie }) => {
+export const Genre = ({ genre }) => {
+  const navigation = useNavigation();
+  const { colors } = useTheme();
   return (
-    <View>
-      <Image
-        source={{ uri: `${baseURL}/uploads/${movie.image}` }}
-        style={{
-          width: 100,
-          height: 100,
-          marginHorizontal: 7,
-          borderRadius: 50,
-        }}
-      />
-    </View>
+    <Card
+      style={{
+        borderRadius: 10,
+        padding: 10,
+        borderWidth: 0.5,
+        margin: 5,
+        borderColor: colors.text,
+      }}
+      onPress={() => navigation.navigate("GenreVideo", { genreId: genre._id })}
+    >
+      <Text style={{ fontSize: 17 }}>{genre.name}</Text>
+    </Card>
   );
 };
 
@@ -88,4 +106,22 @@ export const Trending = ({ movie }) => {
   );
 };
 
+export const Latest = ({ movie }) => {
+  const navigation = useNavigation();
+  return (
+    <TouchableOpacity
+      onPress={() => navigation.navigate("Video", { item: movie })}
+    >
+      <Image
+        source={{ uri: `${baseURL}/uploads/${movie.image}` }}
+        style={{
+          width: 100,
+          height: 150,
+          marginHorizontal: 10,
+          borderRadius: 3,
+        }}
+      />
+    </TouchableOpacity>
+  );
+};
 const styles = StyleSheet.create({});

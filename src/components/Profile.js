@@ -10,6 +10,7 @@ import CardDetails from "./CardDetails";
 import Loading from "./Loading";
 import { baseUrl, UPLOAD } from "../api/api";
 import { useSelector } from "react-redux";
+import { Colors } from "react-native/Libraries/NewAppScreen";
 
 const Profile = ({ data, onPress }) => {
   const { colors } = useTheme();
@@ -31,7 +32,7 @@ const Profile = ({ data, onPress }) => {
         <MaterialIcons
           name="account-circle"
           size={100}
-          color="#1e1e1e"
+          color={colors.text}
           style={{ alignSelf: "center", marginTop: 75 }}
         />
       )}

@@ -77,4 +77,3 @@ export const DeleteGenre = (id, token) => {
     const data = await response.data;
   };
 };
-
