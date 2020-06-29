@@ -5,6 +5,7 @@ import {
   USERDETAILS,
   UPDATEUSER,
   GETUSERBYID,
+  GETALLUSERS,
 } from "../../api/api";
 
 export const signUp = (email, password) => {
@@ -103,6 +104,24 @@ export const updateProfile = (token, user) => {
     const data = await response.data;
     dispatch({
       type: "GETDETAILS",
+      payload: data,
+    });
+  };
+};
+
+export const getAllUsers = (token) => {
+  return async (dispatch) => {
+    const response = await Axios({
+      method: "get",
+      url: GETALLUSERS,
+      headers: {
+        authorization: token,
+      },
+    });
+
+    const data = await response.data;
+    dispatch({
+      type: "GETALLUSERS",
       payload: data,
     });
   };

@@ -54,7 +54,11 @@ const DashboardScreen = ({ navigation }) => {
         icon="movie"
         onPress={() => navigation.navigate("Genre")}
       />
-      <CardDetails title="Users" icon="account" />
+      <CardDetails
+        title="Users"
+        icon="account"
+        onPress={() => navigation.navigate("User")}
+      />
 
       <CardDetails
         title="LogOut"

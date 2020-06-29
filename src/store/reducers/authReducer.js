@@ -2,6 +2,7 @@ const initialState = {
   token: "",
   admin: false,
   data: [],
+  users: [],
   // user: [],
 };
 
@@ -20,6 +21,13 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         data: action.payload,
       };
+
+    case "GETALLUSERS":
+      return {
+        ...state,
+        users: action.payload,
+      };
+
     // case "GETUSERBYID":
     //   return {
     //     ...state,
