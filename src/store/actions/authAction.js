@@ -6,6 +6,7 @@ import {
   UPDATEUSER,
   GETUSERBYID,
   GETALLUSERS,
+  UPDATEUSERBYID,
 } from "../../api/api";
 
 export const signUp = (email, password) => {
@@ -95,6 +96,25 @@ export const updateProfile = (token, user) => {
     const response = await Axios({
       method: "put",
       url: UPDATEUSER,
+      data: user,
+      headers: {
+        authorization: token,
+      },
+    });
+
+    const data = await response.data;
+    dispatch({
+      type: "GETDETAILS",
+      payload: data,
+    });
+  };
+};
+
+export const updateProfileById = (token, user, id) => {
+  return async (dispatch) => {
+    const response = await Axios({
+      method: "put",
+      url: `${UPDATEUSERBYID}/${id}`,
       data: user,
       headers: {
         authorization: token,

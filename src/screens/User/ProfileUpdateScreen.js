@@ -6,7 +6,10 @@ import { UPLOAD } from "../../api/api";
 import { Card, ActivityIndicator, Button } from "react-native-paper";
 import ImageComponent from "../../components/ImageComponent";
 import InputComponent from "../../components/InputComponent";
-import { updateProfile } from "../../store/actions/authAction";
+import {
+  updateProfile,
+  updateProfileById,
+} from "../../store/actions/authAction";
 import { colors } from "react-native-elements";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useTheme } from "@react-navigation/native";
@@ -14,7 +17,7 @@ import { useTheme } from "@react-navigation/native";
 const ProfileUpdateScreen = ({ navigation, route }) => {
   const data = route.params.data;
   const { colors } = useTheme();
-  const token = useSelector((state) => state.auth.token);
+  const { token, admin } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   const [name, setName] = useState(data.name);
@@ -26,13 +29,18 @@ const ProfileUpdateScreen = ({ navigation, route }) => {
 
   const handleSubmit = async () => {
     let action;
-    const data = {
+    const data1 = {
       name,
       address,
       phone,
       image,
     };
-    action = updateProfile(token, data);
+    {
+      admin
+        ? (action = updateProfileById(token, data1, data._id))
+        : (action = updateProfile(token, data1));
+    }
+
     try {
       await dispatch(action);
       navigation.goBack();
@@ -67,7 +75,12 @@ const ProfileUpdateScreen = ({ navigation, route }) => {
       </TouchableOpacity>
       <InputComponent label="name" value={name} onChange={setName} />
       <InputComponent label="address" value={address} onChange={setAddress} />
-      <InputComponent label="phone" value={phone} onChange={setPhone} />
+      <InputComponent
+        label="phone"
+        value={phone}
+        onChange={setPhone}
+        keyboard="phone-pad"
+      />
 
       <Modal
         visible={modal}
