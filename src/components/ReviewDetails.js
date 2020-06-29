@@ -12,7 +12,7 @@ const ReviewDetails = ({ value }) => {
   const [userDetails, result] = useUserDetails();
 
   useEffect(() => {
-    const id = value.userId;
+    const id = value.user;
     userDetails(id);
   }, []);
   return (
@@ -41,14 +41,19 @@ const ReviewDetails = ({ value }) => {
             <MaterialIcons
               name="account-circle"
               size={60}
-              color="#e4e4e4"
+              color={colors.text}
               style={{ marginRight: 10 }}
             />
           )}
           <View>
             <View style={{ flexDirection: "row" }}>
               <Text
-                style={{ color: colors.text, fontWeight: "bold", fontSize: 17,marginRight:5 }}
+                style={{
+                  color: colors.text,
+                  fontWeight: "bold",
+                  fontSize: 17,
+                  marginRight: 5,
+                }}
               >
                 {result.name || result.email}
               </Text>

@@ -11,10 +11,9 @@ import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import Constant from "expo-constants";
 import { useNavigation, useTheme } from "@react-navigation/native";
 
-
 const SearchBar = ({ value, onChange, onSubmit }) => {
   const navigation = useNavigation();
-const {colors}=useTheme();
+  const { colors } = useTheme();
 
   const styles = StyleSheet.create({
     container: {
@@ -63,11 +62,11 @@ const {colors}=useTheme();
             flex: 1,
             fontSize: 18,
             color: "#fff",
-            borderBottomWidth:.4,
-            borderColor:"#d0d0d0",
-            paddingBottom:5
+            borderBottomWidth: 0.4,
+            borderColor: "#d0d0d0",
+            paddingBottom: 5,
           }}
-          onEndEditing={onSubmit}
+          onEndEditing={value ? onSubmit : null}
         />
 
         <MaterialIcons name="keyboard-voice" size={27} color="#fff" />
@@ -75,6 +74,5 @@ const {colors}=useTheme();
     </View>
   );
 };
-
 
 export default SearchBar;

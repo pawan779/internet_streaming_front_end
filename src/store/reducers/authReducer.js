@@ -1,7 +1,8 @@
 const initialState = {
-  toke: "",
+  token: "",
   admin: false,
   data: [],
+  // user: [],
 };
 
 export const authReducer = (state = initialState, action) => {
@@ -19,6 +20,11 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         data: action.payload,
       };
+    // case "GETUSERBYID":
+    //   return {
+    //     ...state,
+    //     user: action.payload,
+    //   };
     default:
       return state;
   }

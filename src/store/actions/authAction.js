@@ -1,5 +1,11 @@
 import Axios from "axios";
-import { SIGNUP, SIGNIN, USERDETAILS, UPDATEUSER } from "../../api/api";
+import {
+  SIGNUP,
+  SIGNIN,
+  USERDETAILS,
+  UPDATEUSER,
+  GETUSERBYID,
+} from "../../api/api";
 
 export const signUp = (email, password) => {
   return async (dispatch) => {
@@ -101,3 +107,21 @@ export const updateProfile = (token, user) => {
     });
   };
 };
+
+// export const getUserById = (token, id) => {
+//   return async (dispatch) => {
+//     const response = await Axios({
+//       method: "get",
+//       url: `${GETUSERBYID}/${id}`,
+//       headers: {
+//         authorization: token,
+//       },
+//     });
+
+//     const data = await response.data;
+//     dispatch({
+//       type: "GETUSERBYID",
+//       payload: data,
+//     });
+//   };
+// };

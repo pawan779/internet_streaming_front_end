@@ -19,6 +19,7 @@ export const SEARCH = `${baseURL}/movie/search`;
 export const ADDREVIEW = `${baseURL}/movie/review`;
 export const USERDETAILS = `${baseURL}/me`;
 export const UPDATEUSER = `${baseURL}/me`;
+export const GETUSERBYID=`${baseURL}/user`
 export const UPDATEVIEWS = `${baseURL}/movie/views`;
 export const GETMOVIEBYGENRE = `${baseURL}/movie/genre`;
 export const TRENDINGMOVIE = `${baseURL}/movie/trending/movie`;

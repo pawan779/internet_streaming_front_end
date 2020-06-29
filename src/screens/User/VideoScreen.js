@@ -11,6 +11,8 @@ import { Entypo, Feather, Ionicons } from "@expo/vector-icons";
 import ReviewDetails from "../../components/ReviewDetails";
 import Review from "../../components/Review";
 import { ScrollView } from "react-native-gesture-handler";
+import { color } from "react-native-reanimated";
+import { getUserById } from "../../store/actions/authAction";
 
 const VideoScreen = ({ route }) => {
   const item = route.params.item;
@@ -24,7 +26,7 @@ const VideoScreen = ({ route }) => {
   const navigation = useNavigation();
   const { token, admin } = useSelector((state) => state.auth);
   const { movie } = useSelector((state) => state.movies);
-  let rating = parseFloat(movie.rating).toFixed(2);
+  // let rating = parseFloat(movie.rating).toFixed(2);
 
   const getVideo = async () => {
     setIsLoading(true);
@@ -80,7 +82,6 @@ const VideoScreen = ({ route }) => {
               style={{
                 flexDirection: "row",
                 alignItems: "center",
-               
               }}
             >
               <Text
@@ -96,7 +97,7 @@ const VideoScreen = ({ route }) => {
                 <Rating
                   type="custom"
                   imageSize={20}
-                  startingValue={rating}
+                  startingValue={movie.rating}
                   readonly
                   fractions={2}
                   ratingBackgroundColor="#1e1e1e"
@@ -109,19 +110,20 @@ const VideoScreen = ({ route }) => {
             <View
               style={{
                 flexDirection: "row",
-                alignItems: "flex-end",
-                marginVertical: 5,
+                justifyContent: "space-around",
+                borderBottomWidth: 0.17,
+                borderColor: colors.text,
               }}
             >
-              <Feather name="eye" size={20} color={colors.text} />
-              <Text style={{ marginTop: 10, marginLeft: 15 }}>
-                {movie.views} Views
-              </Text>
-            </View>
-            <Text>Actor: {movie.actor}</Text>
-            <View
-              style={{ flexDirection: "row", justifyContent: "space-around" }}
-            >
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <Feather name="eye" size={20} color={colors.text} />
+                <Text style={{ marginLeft: 10 }}>{movie.views} Views</Text>
+              </View>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <IconButton uppercase={false} icon="calendar-month-outline" />
                 <Text>{movie.release}</Text>
@@ -131,6 +133,8 @@ const VideoScreen = ({ route }) => {
                 <Text>{movie.duration} minutes</Text>
               </View>
             </View>
+            <Text style={{ marginVertical: 10 }}>Actor: {movie.actor}</Text>
+
             {admin ? (
               <View
                 flexDirection="row"
@@ -216,7 +220,7 @@ const VideoScreen = ({ route }) => {
             </Button>
           </View>
           <Overlay isVisible={modal} onBackdropPress={() => setModal(false)}>
-            <Review id={movie._id} back={setModal} />
+            <Review id={movie._id} back={setModal} refresh={getVideo} />
           </Overlay>
 
           <FlatList

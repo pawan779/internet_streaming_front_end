@@ -3,11 +3,11 @@ import { StyleSheet, View, Text, Alert } from "react-native";
 import { TextInput, Button } from "react-native-paper";
 import { Rating } from "react-native-elements";
 import Axios from "axios";
-import {ADDREVIEW } from "../api/api";
+import { ADDREVIEW } from "../api/api";
 import { useSelector } from "react-redux";
 import { useTheme } from "@react-navigation/native";
 
-const Review = ({ id, back }) => {
+const Review = ({ id, back, refresh }) => {
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState("");
   const token = useSelector((state) => state.auth.token);
@@ -35,6 +35,7 @@ const Review = ({ id, back }) => {
       });
       Alert.alert("Sucess");
       back(false);
+      refresh();
     } catch (err) {
       Alert.alert(err.response.data.error);
     }

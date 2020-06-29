@@ -6,6 +6,7 @@ import {
   Modal,
   KeyboardAvoidingView,
   View,
+  RefreshControl,
 } from "react-native";
 import {
   CreateGenre,
@@ -155,7 +156,9 @@ const GenreScreen = ({ navigation }) => {
   };
   useEffect(() => {
     getGenre();
-    getFav();
+    {
+      admin ? null : getFav();
+    }
   }, []);
 
   if (isLoading) {
@@ -174,6 +177,15 @@ const GenreScreen = ({ navigation }) => {
       <Header headerTitle="Genre" back />
       {admin ? <Fab onPress={() => handleFab()} /> : null}
       <FlatList
+        refreshControl={
+          <RefreshControl
+            refreshing={isLoading}
+            onRefresh={getGenre}
+            title="Pull to refresh"
+            tintColor={colors.text}
+            titleColor={colors.text}
+          />
+        }
         data={genre}
         keyExtractor={(items) => items._id}
         renderItem={({ item }) => {
