@@ -35,7 +35,7 @@ const ProfileUpdateScreen = ({ navigation, route }) => {
     action = updateProfile(token, data);
     try {
       await dispatch(action);
-      navigation.navigate("Profile");
+      navigation.goBack();
     } catch (err) {
       Alert.alert(err.response.data.error);
     }

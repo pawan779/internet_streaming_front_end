@@ -72,7 +72,11 @@ const Router = () => {
                 <Stack.Screen name="Genre" component={GenreScreen} />
                 <Stack.Screen name="Create" component={CreateScreen} />
                 <Stack.Screen name="Edit" component={EditScreen} />
-                <Stack.Screen name="User" component={UserScreen}/>
+                <Stack.Screen name="User" component={UserScreen} />
+                <Stack.Screen
+                  name="ProfileUpdate"
+                  component={ProfileUpdateScreen}
+                />
               </>
             ) : (
               <>
@@ -83,7 +87,7 @@ const Router = () => {
                   name="ProfileUpdate"
                   component={ProfileUpdateScreen}
                 />
-                <Stack.Screen name="GenreVideo" component={GenreVideoScreen}/>
+                <Stack.Screen name="GenreVideo" component={GenreVideoScreen} />
               </>
             )}
           </>

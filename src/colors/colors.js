@@ -13,7 +13,8 @@ export const customDefaultTheme = {
     border:"#fff",
     opposite:"#1e1e1e",
     card:"#fff",
-    error:"#d50000"
+    error:"#d50000",
+    dim:"#d7d7d7"
   },
 };
 
@@ -29,6 +30,7 @@ export const customDarkTheme = {
     border:"#dbdbdb",
     opposite:"#d50000",
     card:"#1e1e1e",
-    error:"#d50000"
+    error:"#d50000",
+    dim:"#1e1e1e"
   },
 };
