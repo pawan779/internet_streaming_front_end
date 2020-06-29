@@ -6,7 +6,7 @@ import { useNavigation, useTheme } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { baseUrl } from "../api/api";
 
-export default Header = ({ headerMode, back, title, headerTitle,noImage }) => {
+export default Header = ({ headerMode, back, title, headerTitle, noImage }) => {
   const dispathch = useDispatch();
   const navigation = useNavigation();
   const { colors } = useTheme();
@@ -40,6 +40,7 @@ export default Header = ({ headerMode, back, title, headerTitle,noImage }) => {
             flexDirection: "row",
             margin: 5,
             flex: 1,
+            alignItems:"center"
           }}
         >
           {back ? (
@@ -71,7 +72,7 @@ export default Header = ({ headerMode, back, title, headerTitle,noImage }) => {
             style={{
               fontSize: 20,
               marginLeft: 7,
-              color: colors.text,
+              color: "#fff",
               fontWeight: "bold",
             }}
           >
@@ -94,7 +95,6 @@ export default Header = ({ headerMode, back, title, headerTitle,noImage }) => {
                 navigation.navigate("Search");
               }}
             />
-        
           </View>
         ) : null}
       </View>
