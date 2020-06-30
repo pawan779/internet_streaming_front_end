@@ -48,7 +48,7 @@ const ProfileScreen = ({ navigation }) => {
   }
   return (
     <View style={styles.container}>
-      <Header back headerTitle="Profile" noImage />
+      <Header back  headerTitle={data.name.toUpperCase() + " Profile" || "Update Profile"} noImage />
       <Profile
         data={data}
         onPress={() => navigation.navigate("ProfileUpdate", { data: data })}

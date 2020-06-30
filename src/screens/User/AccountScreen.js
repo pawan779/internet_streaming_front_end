@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Logout } from "../../store/actions/authAction";
 import { changeTheme } from "../../store/actions/themeAction";
 
-const AccountScreen = ({navigation}) => {
+const AccountScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const theme = useSelector((state) => state.theme);
 
@@ -46,6 +46,11 @@ const AccountScreen = ({navigation}) => {
         title="Profile"
         icon="account"
         onPress={() => navigation.navigate("Profile")}
+      />
+      <CardDetails
+        title="Change Password"
+        icon="lock"
+        onPress={() => navigation.navigate("Password")}
       />
       <CardDetails title="Logout" icon="logout" onPress={handelLogOut} />
     </View>

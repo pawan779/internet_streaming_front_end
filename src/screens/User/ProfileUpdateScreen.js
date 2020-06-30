@@ -11,8 +11,9 @@ import {
   updateProfileById,
 } from "../../store/actions/authAction";
 import { colors } from "react-native-elements";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
 import { useTheme } from "@react-navigation/native";
+import Header from "../../components/Header";
 
 const ProfileUpdateScreen = ({ navigation, route }) => {
   const data = route.params.data;
@@ -50,53 +51,63 @@ const ProfileUpdateScreen = ({ navigation, route }) => {
   };
 
   return (
-    <View style={{ flex: 1, padding: 20 }}>
-      <TouchableOpacity onPress={() => setModal(true)}>
-        {data.image ? (
-          <Image
-            source={{ uri: `${UPLOAD}/${image}` }}
-            style={{
-              width: 150,
-              height: 150,
-              borderRadius: 75,
-              marginTop: 50,
-              alignSelf: "center",
-            }}
-          />
-        ) : (
-          <MaterialIcons
-            name="account-circle"
-            size={100}
-            color={colors.text}
-            style={{ alignSelf: "center", marginTop: 75 }}
-          />
-        )}
-        <ActivityIndicator animating={loading} size="small" />
-      </TouchableOpacity>
-      <InputComponent label="name" value={name} onChange={setName} />
-      <InputComponent label="address" value={address} onChange={setAddress} />
-      <InputComponent
-        label="phone"
-        value={phone}
-        onChange={setPhone}
-        keyboard="phone-pad"
+    <View style={{ flex: 1 }}>
+      <Header
+        back
+        noImage
+        headerTitle={name.toUpperCase() + " Profile" || "Update Profile"}
       />
-
-      <Modal
-        visible={modal}
-        animationType="slide"
-        transparent={true}
-        onRequestClose={() => setModal(false)}
-      >
-        <ImageComponent
-          onCancel={() => setModal(false)}
-          value={setImage}
-          load={() => setLoading(true)}
-          notLoad={() => setLoading(false)}
+      <ScrollView style={{ padding: 20 }}>
+        <TouchableOpacity onPress={() => setModal(true)}>
+          {data.image ? (
+            <Image
+              source={{ uri: `${UPLOAD}/${image}` }}
+              style={{
+                width: 150,
+                height: 150,
+                borderRadius: 75,
+                marginTop: 10,
+                alignSelf: "center",
+              }}
+            />
+          ) : (
+            <MaterialIcons
+              name="account-circle"
+              size={100}
+              color={colors.text}
+              style={{ alignSelf: "center", marginTop: 10 }}
+            />
+          )}
+          <Button uppercase={false}>Click here to Change Profile</Button>
+          <ActivityIndicator animating={loading} size="small" />
+        </TouchableOpacity>
+        <InputComponent label="name" value={name} onChange={setName} />
+        <InputComponent label="address" value={address} onChange={setAddress} />
+        <InputComponent
+          label="phone"
+          value={phone}
+          onChange={setPhone}
+          keyboard="phone-pad"
         />
-      </Modal>
 
-      <Button onPress={() => handleSubmit()}>Update</Button>
+        <Modal
+          visible={modal}
+          animationType="slide"
+          transparent={true}
+          onRequestClose={() => setModal(false)}
+        >
+          <ImageComponent
+            onCancel={() => setModal(false)}
+            value={setImage}
+            load={() => setLoading(true)}
+            notLoad={() => setLoading(false)}
+          />
+        </Modal>
+
+        <Button onPress={() => handleSubmit()} mode="contained">
+          Update
+        </Button>
+      </ScrollView>
     </View>
   );
 };

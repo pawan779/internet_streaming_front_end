@@ -24,7 +24,7 @@ const Profile = ({ data, onPress }) => {
             width: 150,
             height: 150,
             borderRadius: 75,
-            marginTop: 50,
+            marginVertical: 10,
             alignSelf: "center",
           }}
         />
@@ -33,7 +33,7 @@ const Profile = ({ data, onPress }) => {
           name="account-circle"
           size={100}
           color={colors.text}
-          style={{ alignSelf: "center", marginTop: 75 }}
+          style={{ alignSelf: "center", marginVertical: 10 }}
         />
       )}
 
