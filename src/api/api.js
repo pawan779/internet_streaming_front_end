@@ -23,6 +23,7 @@ export const UPDATEUSERBYID=`${baseURL}/user`
 export const DELETEUSERBYID=`${baseURL}/user`
 export const GETALLUSERS = `${baseURL}/user/all`;
 export const GETUSERBYID = `${baseURL}/user`;
+export const CHANGEPASSWORD=`${baseURL}/change`
 export const UPDATEVIEWS = `${baseURL}/movie/views`;
 export const GETMOVIEBYGENRE = `${baseURL}/movie/genre`;
 export const TRENDINGMOVIE = `${baseURL}/movie/trending/movie`;

@@ -7,6 +7,7 @@ import {
   GETUSERBYID,
   GETALLUSERS,
   UPDATEUSERBYID,
+  CHANGEPASSWORD,
 } from "../../api/api";
 
 export const signUp = (email, password) => {
@@ -147,6 +148,19 @@ export const getAllUsers = (token) => {
   };
 };
 
+export const changePassword = (token, items) => {
+  console.log(items);
+  return async (dispatch) => {
+    const response = await Axios({
+      method: "post",
+      url: CHANGEPASSWORD,
+      data: items,
+      headers: {
+        authorization: token,
+      },
+    });
+  };
+};
 // export const getUserById = (token, id) => {
 //   return async (dispatch) => {
 //     const response = await Axios({

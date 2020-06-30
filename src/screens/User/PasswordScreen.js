@@ -1,11 +1,15 @@
 import React from "react";
-import { StyleSheet, View, Text, Alert } from "react-native";
+import { StyleSheet, View, Alert } from "react-native";
 import Header from "../../components/Header";
 import { TextInput, Button, HelperText } from "react-native-paper";
 import { useState } from "react";
 import { errorTheme } from "../../colors/theme";
+import Axios from "axios";
+import { CHANGEPASSWORD } from "../../api/api";
+import { useSelector, useDispatch } from "react-redux";
+import { changePassword } from "../../store/actions/authAction";
 
-const PasswordScreen = () => {
+const PasswordScreen = ({ navigation }) => {
   const [oldPwd, setOldPwd] = useState();
   const [newPwd, setNewPwd] = useState();
   const [cPwd, setCpwd] = useState();
@@ -16,8 +20,12 @@ const PasswordScreen = () => {
   const [cPasswordError, setcpasswordError] = useState();
   const [isCpasswordError, setiscPasswordError] = useState(true);
 
+  const { token } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
   const currentPasswordValidation = () => {
     if (!oldPwd) {
+      setisOpasswordError(true);
       return setoPasswordError("Password cannot be empty");
     }
     setoPasswordError("");
@@ -56,7 +64,27 @@ const PasswordScreen = () => {
     }
   };
 
-  const handleChangePassword = () => {};
+  const handleChangePassword = async () => {
+    if (isPasswordError || isOpasswordError || isCpasswordError) {
+      return Alert.alert("Invalid Input");
+    }
+    const data = {
+      password: oldPwd,
+      newPassword: newPwd,
+    };
+    let action;
+    action = changePassword(token, data);
+    try {
+      await dispatch(action);
+      Alert.alert("Password Changed");
+      navigation.navigate("Account");
+    } catch (err) {
+      Alert.alert("Password donot Match");
+      setOldPwd("");
+      setNewPwd("");
+      setCpwd("");
+    }
+  };
 
   return (
     <View style={styles.container}>
