@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Alert, Modal, FlatList } from "react-native";
 import { Text, Button, IconButton } from "react-native-paper";
-import { deleteMovie, updateViews } from "../../store/actions/movieAction";
+import {
+  deleteMovie,
+  updateViews,
+  trendingMovie,
+} from "../../store/actions/movieAction";
 import { useDispatch, useSelector } from "react-redux";
 import { Overlay, Rating } from "react-native-elements";
 import VideoPlayer from "../../components/VideoPlayer";
@@ -13,6 +17,8 @@ import Review from "../../components/Review";
 import { ScrollView } from "react-native-gesture-handler";
 import { color } from "react-native-reanimated";
 import { getUserById } from "../../store/actions/authAction";
+import GenreVideoScreen from "./GenreVideoScreen";
+import { Trending, Latest } from "../../components/PosterImage";
 
 const VideoScreen = ({ route }) => {
   const item = route.params.item;
@@ -25,7 +31,7 @@ const VideoScreen = ({ route }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const { token, admin } = useSelector((state) => state.auth);
-  const { movie } = useSelector((state) => state.movies);
+  const { movie, trending } = useSelector((state) => state.movies);
   // let rating = parseFloat(movie.rating).toFixed(2);
 
   const getVideo = async () => {
@@ -60,6 +66,19 @@ const VideoScreen = ({ route }) => {
     }
   };
 
+  const trendingMovies = async () => {
+    setIsLoading(true);
+    let action;
+    action = trendingMovie(token);
+    try {
+      await dispatch(action);
+      setIsLoading(false);
+    } catch (err) {
+      Alert.alert(err.response.data.error);
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     getVideo();
   }, []);
@@ -76,8 +95,8 @@ const VideoScreen = ({ route }) => {
     <View style={styles.container}>
       <VideoPlayer videoId={movie.video} />
       {!showReview ? (
-        <ScrollView>
-          <View style={{ padding: 10 }}>
+        <View style={{ padding: 10 }}>
+          <ScrollView>
             <View
               style={{
                 flexDirection: "row",
@@ -194,8 +213,21 @@ const VideoScreen = ({ route }) => {
             >
               Reviews ({movie.review.length})
             </Button>
-          </View>
-        </ScrollView>
+            <Text style={styles.text}>People also Watch</Text>
+
+            <FlatList
+              data={trending.slice(0,7)}
+              showsHorizontalScrollIndicator={false}
+              horizontal
+              keyExtractor={(items) => items._id}
+              renderItem={({ item }) => {
+                return <Trending movie={item} />;
+              }}
+            />
+
+          </ScrollView>
+        
+        </View>
       ) : (
         <>
           <View style={{ flexDirection: "row" }}>
@@ -239,6 +271,13 @@ const VideoScreen = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  text: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginTop: 20,
+    marginHorizontal: 10,
+    marginBottom: 5,
   },
 });
 export default VideoScreen;

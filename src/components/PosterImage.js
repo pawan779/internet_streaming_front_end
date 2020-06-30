@@ -52,7 +52,11 @@ export const PosterImage = ({ movie }) => {
           }}
         >
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <IconButton uppercase={false} icon="calendar-month-outline" size={20}/>
+            <IconButton
+              uppercase={false}
+              icon="calendar-month-outline"
+              size={20}
+            />
             <Text>{movie.release}</Text>
           </View>
           <Button
@@ -106,9 +110,7 @@ export const Genre = ({ genre }) => {
 export const Trending = ({ movie }) => {
   const navigation = useNavigation();
   return (
-    <TouchableOpacity
-      onPress={() => navigation.navigate("Video", { item: movie })}
-    >
+    <TouchableOpacity onPress={() => navigation.push("Video", { item: movie })}>
       <Image
         source={{ uri: `${baseURL}/uploads/${movie.image}` }}
         style={{
