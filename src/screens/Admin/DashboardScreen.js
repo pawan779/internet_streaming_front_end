@@ -59,6 +59,11 @@ const DashboardScreen = ({ navigation }) => {
         icon="account"
         onPress={() => navigation.navigate("User")}
       />
+      <CardDetails
+        title="Change Password"
+        icon="lock"
+        onPress={() => navigation.navigate("Password")}
+      />
 
       <CardDetails
         title="LogOut"

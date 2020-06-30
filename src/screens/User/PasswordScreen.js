@@ -19,6 +19,7 @@ const PasswordScreen = ({ navigation }) => {
   const [isPasswordError, setisPasswordError] = useState(true);
   const [cPasswordError, setcpasswordError] = useState();
   const [isCpasswordError, setiscPasswordError] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const { token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -68,6 +69,7 @@ const PasswordScreen = ({ navigation }) => {
     if (isPasswordError || isOpasswordError || isCpasswordError) {
       return Alert.alert("Invalid Input");
     }
+    setLoading(true);
     const data = {
       password: oldPwd,
       newPassword: newPwd,
@@ -77,12 +79,14 @@ const PasswordScreen = ({ navigation }) => {
     try {
       await dispatch(action);
       Alert.alert("Password Changed");
-      navigation.navigate("Account");
+      navigation.goBack();
+      setLoading(false);
     } catch (err) {
       Alert.alert("Password donot Match");
       setOldPwd("");
       setNewPwd("");
       setCpwd("");
+      setLoading(false);
     }
   };
 
@@ -131,6 +135,7 @@ const PasswordScreen = ({ navigation }) => {
           uppercase={false}
           mode="contained"
           icon="content-save"
+          loading={loading}
           disabled={
             isPasswordError || isOpasswordError || isCpasswordError
               ? true

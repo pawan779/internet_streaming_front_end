@@ -78,6 +78,7 @@ const Router = () => {
                   name="ProfileUpdate"
                   component={ProfileUpdateScreen}
                 />
+                <Stack.Screen name="Password" component={PasswordScreen} />
               </>
             ) : (
               <>
