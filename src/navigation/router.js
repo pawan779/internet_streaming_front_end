@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { NavigationContainer, useTheme } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -7,7 +7,7 @@ import AuthScreen from "../screens/AuthScreen";
 import HomeScreen from "../screens/User/HomeScreen";
 import { useSelector } from "react-redux";
 import AccountScreen from "../screens/User/AccountScreen";
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons, FontAwesome } from "@expo/vector-icons";
 import { customDarkTheme, customDefaultTheme } from "../colors/colors";
 import SearchScreen from "../screens/User/SearchScreen";
 import GenreScreen from "../screens/User/GenreScreen";
@@ -21,6 +21,8 @@ import ProfileUpdateScreen from "../screens/User/ProfileUpdateScreen";
 import GenreVideoScreen from "../screens/User/GenreVideoScreen";
 import UserScreen from "../screens/Admin/UserScreen";
 import PasswordScreen from "../screens/User/PasswordScreen";
+import RecommendationScreen from "../screens/User/RecommendationScreen";
+import { color } from "react-native-reanimated";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -34,8 +36,33 @@ const RootHome = () => {
           let iconName;
           if (route.name === "Home") {
             iconName = "home";
+          } else if (route.name === "Recommended") {
+            iconName = "explore";
           } else if (route.name === "Search") {
-            iconName = "search";
+            return (
+              <View
+                style={{
+                  marginTop: -50,
+                  marginBottom: -40,
+                  height: 75,
+                  padding: 20,
+                  backgroundColor: color === colors.nav ? colors.nav : color,
+                  borderRadius: "50%",
+                  shadowColor: "#000",
+                  shadowOffset: { width: 1, height: 3 },
+                  shadowOpacity: 0.8,
+                  shadowRadius: 2,
+                  elevation: 3,
+                }}
+              >
+                <FontAwesome
+                  name="search"
+                  size={40}
+                  color={color === "#fff" ? "#000" : "#fff"}
+                  style={{ marginTop: -5, marginLeft: -5 }}
+                />
+              </View>
+            );
           } else if (route.name === "Account") {
             iconName = "account-circle";
           } else if (route.name === "Genres") {
@@ -45,11 +72,12 @@ const RootHome = () => {
         },
       })}
       tabBarOptions={{
-        activeTintColor: colors.secondaryIcon,
-        inactiveTintColor: "#bcbcbc",
+        activeTintColor: "#ff0000",
+        inactiveTintColor: colors.nav,
       }}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Recommended" component={RecommendationScreen} />
       <Tab.Screen name="Search" component={SearchScreen} />
       <Tab.Screen name="Genres" component={GenreScreen} />
       <Tab.Screen name="Account" component={AccountScreen} />

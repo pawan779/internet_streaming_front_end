@@ -56,8 +56,9 @@ export const PosterImage = ({ movie }) => {
               uppercase={false}
               icon="calendar-month-outline"
               size={20}
+              color="#fff"
             />
-            <Text>{movie.release}</Text>
+            <Text style={{ color: "#fff" }}>{movie.release}</Text>
           </View>
           <Button
             icon="play"
@@ -68,8 +69,13 @@ export const PosterImage = ({ movie }) => {
             Play
           </Button>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <IconButton uppercase={false} icon="camera-timer" size={20} />
-            <Text>{movie.duration} min</Text>
+            <IconButton
+              uppercase={false}
+              icon="camera-timer"
+              size={20}
+              color="#fff"
+            />
+            <Text style={{ color: "#fff" }}>{movie.duration} min</Text>
           </View>
         </View>
       </View>

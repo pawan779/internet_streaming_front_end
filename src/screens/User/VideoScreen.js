@@ -216,7 +216,7 @@ const VideoScreen = ({ route }) => {
             <Text style={styles.text}>People also Watch</Text>
 
             <FlatList
-              data={trending.slice(0,7)}
+              data={trending.filter((i) => i._id !== item._id).slice(0, 5)}
               showsHorizontalScrollIndicator={false}
               horizontal
               keyExtractor={(items) => items._id}
@@ -224,9 +224,7 @@ const VideoScreen = ({ route }) => {
                 return <Trending movie={item} />;
               }}
             />
-
           </ScrollView>
-        
         </View>
       ) : (
         <>

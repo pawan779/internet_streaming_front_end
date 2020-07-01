@@ -14,7 +14,8 @@ export const customDefaultTheme = {
     opposite:"#1e1e1e",
     card:"#fff",
     error:"#d50000",
-    dim:"#d7d7d7"
+    dim:"#d7d7d7",
+    nav:"#1e1e1e"
   },
 };
 
@@ -25,12 +26,13 @@ export const customDarkTheme = {
     primary: "#1e1e1e",
     secondary: "#000",
     icon: "#d50000",
-    secondaryIcon: "#e80000",
+    secondaryIcon: "#d50000",
     text: "#fff",
     border:"#dbdbdb",
     opposite:"#d50000",
     card:"#1e1e1e",
     error:"#d50000",
-    dim:"#1e1e1e"
+    dim:"#1e1e1e",
+    nav:"#fff"
   },
 };
