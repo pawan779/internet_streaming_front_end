@@ -1,9 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Text, Image, Modal, Alert } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  Modal,
+  Alert,
+  KeyboardAvoidingView,
+} from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { MaterialIcons } from "@expo/vector-icons";
 import { UPLOAD } from "../../api/api";
-import { Card, ActivityIndicator, Button } from "react-native-paper";
+import {
+  Card,
+  ActivityIndicator,
+  Button,
+  HelperText,
+} from "react-native-paper";
 import ImageComponent from "../../components/ImageComponent";
 import InputComponent from "../../components/InputComponent";
 import {
@@ -27,8 +40,38 @@ const ProfileUpdateScreen = ({ navigation, route }) => {
   const [image, setImage] = useState(data.image);
   const [modal, setModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [nameError, setNameError] = useState();
+  const [adError, setAdError] = useState();
+  const [phoneError, setPhoneError] = useState();
+  const [isValid, setIsValid] = useState(false);
+
+  const validation = () => {
+    if (!name) {
+      setNameError("Name is empty");
+      setAdError("");
+      setPhoneError("");
+      return setIsValid(false);
+    } else if (!address) {
+      setAdError("Address is empty");
+      setNameError("");
+      setPhoneError("");
+      setIsValid(false);
+    } else if (!phone || phone.length !== 10) {
+      setPhoneError("10 digit phone number");
+      setNameError("");
+      setAdError("");
+      setIsValid(false);
+    } else {
+      setIsValid(true);
+    }
+  };
 
   const handleSubmit = async () => {
+    validation();
+    if (!isValid) {
+      return;
+    }
+
     let action;
     const data1 = {
       name,
@@ -52,14 +95,15 @@ const ProfileUpdateScreen = ({ navigation, route }) => {
 
   return (
     <View style={{ flex: 1 }}>
-      <Header
-        back
-        noImage
-        headerTitle="Update Profile"
-      />
-      <ScrollView style={{ padding: 20 }}>
+      <Header back noImage headerTitle="Update Profile" />
+
+      <KeyboardAvoidingView
+        behavior="padding"
+        keyboardVerticalOffset={50}
+        style={{ flex: 1, padding: 20 }}
+      >
         <TouchableOpacity onPress={() => setModal(true)}>
-          {data.image ? (
+          {image ? (
             <Image
               source={{ uri: `${UPLOAD}/${image}` }}
               style={{
@@ -82,13 +126,28 @@ const ProfileUpdateScreen = ({ navigation, route }) => {
           <ActivityIndicator animating={loading} size="small" />
         </TouchableOpacity>
         <InputComponent label="name" value={name} onChange={setName} />
+        {nameError ? (
+          <HelperText type="error" visible={nameError}>
+            {nameError}
+          </HelperText>
+        ) : null}
         <InputComponent label="address" value={address} onChange={setAddress} />
+        {adError ? (
+          <HelperText type="error" visible={adError}>
+            {adError}
+          </HelperText>
+        ) : null}
         <InputComponent
           label="phone"
           value={phone}
           onChange={setPhone}
           keyboard="phone-pad"
         />
+        {phoneError ? (
+          <HelperText type="error" visible={phoneError}>
+            {phoneError}
+          </HelperText>
+        ) : null}
 
         <Modal
           visible={modal}
@@ -107,7 +166,7 @@ const ProfileUpdateScreen = ({ navigation, route }) => {
         <Button onPress={() => handleSubmit()} mode="contained">
           Update
         </Button>
-      </ScrollView>
+      </KeyboardAvoidingView>
     </View>
   );
 };

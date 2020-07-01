@@ -93,7 +93,7 @@ const CreateScreen = ({ navigation }) => {
       setReleaseError("Release date is not valide");
       setDurError("");
       return setIsValid(false);
-    } else if ((!selectedItems.length)) {
+    } else if (!selectedItems.length) {
       setGenreError("Select genre");
       setReleaseError("");
       return setIsValid(false);
@@ -130,7 +130,7 @@ const CreateScreen = ({ navigation }) => {
     action = addMovie(token, items);
     try {
       await dispatch(action);
-      navigation.navigate("Movie");
+      navigation.goBack();
     } catch (err) {
       Alert.alert(err.response.data.error);
     }

@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import UserDetails from "../../components/UserDetails";
 import { useTheme } from "@react-navigation/native";
+import Loading from "../../components/Loading";
 
 const UserScreen = () => {
   const dispatch = useDispatch();
@@ -35,6 +36,14 @@ const UserScreen = () => {
   useEffect(() => {
     getUser();
   }, []);
+
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1 }}>
+        <Loading />
+      </View>
+    );
+  }
   return (
     <View style={styles.container}>
       <Header back noImage headerTitle="Users" />
