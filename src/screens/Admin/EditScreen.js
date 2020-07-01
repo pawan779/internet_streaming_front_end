@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, KeyboardAvoidingView, Alert } from "react-native";
-import { Text } from "react-native-paper";
+import { Text, HelperText } from "react-native-paper";
 import Header from "../../components/Header";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -12,6 +12,7 @@ import { editMovie } from "../../store/actions/movieAction";
 import MovieComponent from "../../components/MovieComponent";
 import MovieButtonComponent from "../../components/MovieButtonComponent";
 import InputComponent from "../../components/InputComponent";
+import { errorTheme } from "../../colors/theme";
 
 const EditScreen = ({ navigation, route }) => {
   const data = route.params.video;
@@ -27,6 +28,13 @@ const EditScreen = ({ navigation, route }) => {
   const [duration, setDuration] = useState(data.duration);
   const [release, setRelease] = useState(data.release);
   const [showGenre, setShowGenre] = useState(true);
+  const [nameError, setNameError] = useState("");
+  const [desError, setDesError] = useState("");
+  const [actorError, setActorError] = useState("");
+  const [durError, setDurError] = useState("");
+  const [releaseError, setReleaseError] = useState("");
+  const [genreError, setGenreError] = useState("");
+  const [isValid, setIsValid] = useState(false);
   const [loading, setLoading] = useState(false);
   const [UploadProgress, setUploadProgress] = useState("");
   const [selectedItems, setSelectedItems] = useState([]);
@@ -72,13 +80,48 @@ const EditScreen = ({ navigation, route }) => {
     }
   };
 
+  const validation = () => {
+    if (!name) {
+      setNameError("Name is empty");
+      return setIsValid(false);
+    } else if (!des) {
+      setDesError("Description is empty");
+      setNameError("");
+      return setIsValid(false);
+    } else if (!actor) {
+      setActorError("Actor name is empty");
+      setDesError("");
+      return setIsValid(false);
+    } else if (!duration || duration > 1000) {
+      setDurError("Duration is invalid");
+      setActorError("");
+      return setIsValid(false);
+    } else if (!release || release > 2020 || release < 1900) {
+      setReleaseError("Release date is not valide");
+      setDurError("");
+      return setIsValid(false);
+    } else if (!selectedItems.length) {
+      setGenreError("Select genre");
+      setReleaseError("");
+      return setIsValid(false);
+    } else if (picture === "") {
+      Alert.alert("No empty image");
+      setGenreError("");
+      return setIsValid(false);
+    } else if (video === "") {
+      Alert.alert("No empty video");
+      return setIsValid(false);
+    } else {
+      setIsValid(true);
+    }
+  };
+
   const handleSubmit = async () => {
-    if (picture === "") {
-      return Alert.alert("No empty image");
+    validation();
+    if (!isValid) {
+      return;
     }
-    if (video === "") {
-      return Alert.alert("No empty video");
-    }
+
     const items = {
       name,
       description: des,
@@ -108,76 +151,120 @@ const EditScreen = ({ navigation, route }) => {
   return (
     <View style={styles.container}>
       <Header back headerTitle="Add Movie" noImage />
+      <KeyboardAvoidingView
+        behavior="padding"
+        keyboardVerticalOffset={50}
+        style={styles.view}
+      >
+        <ScrollView>
+          <View style={styles.container}>
+            <InputComponent
+              value={name}
+              onChange={setName}
+              label="Movie Name"
+              theme={nameError && errorTheme}
+            />
+            {nameError ? (
+              <HelperText type="error" visible={nameError}>
+                {nameError}
+              </HelperText>
+            ) : null}
 
-      <ScrollView style={styles.container}>
-        <View>
-          <InputComponent value={name} onChange={setName} label="Movie Name" />
-          <InputComponent
-            label="Description"
-            value={des}
-            onChange={setDes}
-            multiline={true}
-          />
+            <InputComponent
+              label="Description"
+              value={des}
+              onChange={setDes}
+              multiline={true}
+              theme={desError && errorTheme}
+            />
+            {desError ? (
+              <HelperText type="error" visible={desError}>
+                {desError}
+              </HelperText>
+            ) : null}
 
-          <InputComponent
-            label="Actor"
-            value={actor}
-            onChange={setActor}
-            onFocus={() =>
-              setActorMessage("For multiple actor separate with ,")
-            }
-            onEnd={() => setActorMessage("")}
-          />
+            <InputComponent
+              label="Actor"
+              value={actor}
+              onChange={setActor}
+              onFocus={() =>
+                setActorMessage("For multiple actor separate with ,")
+              }
+              onEnd={() => setActorMessage("")}
+              theme={actorError && errorTheme}
+            />
+            {actorError ? (
+              <HelperText type="error" visible={actorError}>
+                {actorError}
+              </HelperText>
+            ) : null}
 
-          {actorMessage ? (
-            <Text style={{ margin: 5 }}>{actorMessage}</Text>
-          ) : null}
+            {actorMessage ? (
+              <Text style={{ margin: 5 }}>{actorMessage}</Text>
+            ) : null}
 
-          <InputComponent
-            label="Duration (min)"
-            value={duration}
-            keyboard="number-pad"
-            onChange={setDuration}
-          />
-          <InputComponent
-            label="Release Date"
-            value={release}
-            keyboard="number-pad"
-            onChange={setRelease}
-          />
+            <InputComponent
+              label="Duration (min)"
+              value={duration}
+              keyboard="number-pad"
+              onChange={setDuration}
+              theme={durError && errorTheme}
+            />
+            {durError ? (
+              <HelperText type="error" visible={durError}>
+                {durError}
+              </HelperText>
+            ) : null}
+            <InputComponent
+              label="Release Date"
+              value={release}
+              keyboard="number-pad"
+              onChange={setRelease}
+              theme={nameError && errorTheme}
+            />
+            {releaseError ? (
+              <HelperText type="error" visible={releaseError}>
+                {releaseError}
+              </HelperText>
+            ) : null}
 
-          <MovieButtonComponent
-            onGpress={() => setShowGenre(!showGenre)}
-            showGenre={showGenre}
-            genre={genre}
-            selectedItems={selectedItems}
-            onPress={selectGenre}
-            picture={picture}
-            onIpress={() => setiModal(true)}
-            video={video}
-            onVpress={() => setvModal(true)}
-            onSubmit={() => handleSubmit()}
-            uploadProgress={UploadProgress}
-            loading={loading}
-            getName={getName}
-            edit={true}
-          />
+            {genreError ? (
+              <HelperText type="error" visible={genreError}>
+                {genreError}
+              </HelperText>
+            ) : null}
 
-          <MovieComponent
-            imodal={imodal}
-            onIcancel={() => setiModal(false)}
-            iValue={setPicture}
-            onIload={() => setLoading(true)}
-            onInotLoad={() => setLoading(false)}
-            vmodal={vmodal}
-            onVcancel={() => setvModal(false)}
-            vValue={setVideo}
-            onVload={() => setLoading(true)}
-            onVnotLoad={() => setLoading(false)}
-            progress={setUploadProgress}
-          />
-        </View>
-      </ScrollView>
+            <MovieButtonComponent
+              onGpress={() => setShowGenre(!showGenre)}
+              showGenre={showGenre}
+              genre={genre}
+              selectedItems={selectedItems}
+              onPress={selectGenre}
+              picture={picture}
+              onIpress={() => setiModal(true)}
+              video={video}
+              onVpress={() => setvModal(true)}
+              onSubmit={() => handleSubmit()}
+              uploadProgress={UploadProgress}
+              loading={loading}
+            />
+
+            <MovieComponent
+              imodal={imodal}
+              onIcancel={() => setiModal(false)}
+              iValue={setPicture}
+              onIload={() => setLoading(true)}
+              onInotLoad={() => setLoading(false)}
+              vmodal={vmodal}
+              onVcancel={() => setvModal(false)}
+              vValue={setVideo}
+              onVload={() => setLoading(true)}
+              onVnotLoad={() => setLoading(false)}
+              progress={setUploadProgress}
+            />
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </View>
   );
 };

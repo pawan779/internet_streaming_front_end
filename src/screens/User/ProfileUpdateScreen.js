@@ -55,7 +55,7 @@ const ProfileUpdateScreen = ({ navigation, route }) => {
       <Header
         back
         noImage
-        headerTitle={name.toUpperCase() + " Profile" || "Update Profile"}
+        headerTitle="Update Profile"
       />
       <ScrollView style={{ padding: 20 }}>
         <TouchableOpacity onPress={() => setModal(true)}>

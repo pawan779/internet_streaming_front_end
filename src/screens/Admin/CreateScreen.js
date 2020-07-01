@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from "react";
-import {
-  StyleSheet,
-  View,
-  KeyboardAvoidingView,
-  Alert,
-} from "react-native";
-import {  Text } from "react-native-paper";
+import { StyleSheet, View, KeyboardAvoidingView, Alert } from "react-native";
+import { Text, HelperText } from "react-native-paper";
 import Header from "../../components/Header";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -17,6 +12,7 @@ import { addMovie } from "../../store/actions/movieAction";
 import MovieComponent from "../../components/MovieComponent";
 import MovieButtonComponent from "../../components/MovieButtonComponent";
 import InputComponent from "../../components/InputComponent";
+import { errorTheme } from "../../colors/theme";
 
 const CreateScreen = ({ navigation }) => {
   const [name, setName] = useState("");
@@ -29,6 +25,13 @@ const CreateScreen = ({ navigation }) => {
   const [actorMessage, setActorMessage] = useState("");
   const [duration, setDuration] = useState("");
   const [release, setRelease] = useState("");
+  const [nameError, setNameError] = useState("");
+  const [desError, setDesError] = useState("");
+  const [actorError, setActorError] = useState("");
+  const [durError, setDurError] = useState("");
+  const [releaseError, setReleaseError] = useState("");
+  const [genreError, setGenreError] = useState("");
+  const [isValid, setIsValid] = useState(false);
   const [showGenre, setShowGenre] = useState(false);
   const [loading, setLoading] = useState(false);
   const [UploadProgress, setUploadProgress] = useState("");
@@ -37,6 +40,7 @@ const CreateScreen = ({ navigation }) => {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
+      marginBottom: 10,
     },
     view: {
       padding: 20,
@@ -69,13 +73,48 @@ const CreateScreen = ({ navigation }) => {
     }
   };
 
+  const validation = () => {
+    if (!name) {
+      setNameError("Name is empty");
+      return setIsValid(false);
+    } else if (!des) {
+      setDesError("Description is empty");
+      setNameError("");
+      return setIsValid(false);
+    } else if (!actor) {
+      setActorError("Actor name is empty");
+      setDesError("");
+      return setIsValid(false);
+    } else if (!duration || duration > 1000) {
+      setDurError("Duration is invalid");
+      setActorError("");
+      return setIsValid(false);
+    } else if (!release || release > 2020 || release < 1900) {
+      setReleaseError("Release date is not valide");
+      setDurError("");
+      return setIsValid(false);
+    } else if ((!selectedItems.length)) {
+      setGenreError("Select genre");
+      setReleaseError("");
+      return setIsValid(false);
+    } else if (picture === "") {
+      Alert.alert("No empty image");
+      setGenreError("");
+      return setIsValid(false);
+    } else if (video === "") {
+      Alert.alert("No empty video");
+      return setIsValid(false);
+    } else {
+      setIsValid(true);
+    }
+  };
+
   const handleSubmit = async () => {
-    if (picture === "") {
-      return Alert.alert("No empty image");
+    validation();
+    if (!isValid) {
+      return;
     }
-    if (video === "") {
-      return Alert.alert("No empty video");
-    }
+
     const items = {
       name,
       description: des,
@@ -109,18 +148,31 @@ const CreateScreen = ({ navigation }) => {
         style={styles.view}
       >
         <ScrollView>
-          <View>
+          <View style={styles.container}>
             <InputComponent
               value={name}
               onChange={setName}
               label="Movie Name"
+              theme={nameError && errorTheme}
             />
+            {nameError ? (
+              <HelperText type="error" visible={nameError}>
+                {nameError}
+              </HelperText>
+            ) : null}
+
             <InputComponent
               label="Description"
               value={des}
               onChange={setDes}
               multiline={true}
+              theme={desError && errorTheme}
             />
+            {desError ? (
+              <HelperText type="error" visible={desError}>
+                {desError}
+              </HelperText>
+            ) : null}
 
             <InputComponent
               label="Actor"
@@ -130,7 +182,13 @@ const CreateScreen = ({ navigation }) => {
                 setActorMessage("For multiple actor separate with ,")
               }
               onEnd={() => setActorMessage("")}
+              theme={actorError && errorTheme}
             />
+            {actorError ? (
+              <HelperText type="error" visible={actorError}>
+                {actorError}
+              </HelperText>
+            ) : null}
 
             {actorMessage ? (
               <Text style={{ margin: 5 }}>{actorMessage}</Text>
@@ -141,13 +199,31 @@ const CreateScreen = ({ navigation }) => {
               value={duration}
               keyboard="number-pad"
               onChange={setDuration}
+              theme={durError && errorTheme}
             />
+            {durError ? (
+              <HelperText type="error" visible={durError}>
+                {durError}
+              </HelperText>
+            ) : null}
             <InputComponent
               label="Release Date"
               value={release}
               keyboard="number-pad"
               onChange={setRelease}
+              theme={nameError && errorTheme}
             />
+            {releaseError ? (
+              <HelperText type="error" visible={releaseError}>
+                {releaseError}
+              </HelperText>
+            ) : null}
+
+            {genreError ? (
+              <HelperText type="error" visible={genreError}>
+                {genreError}
+              </HelperText>
+            ) : null}
 
             <MovieButtonComponent
               onGpress={() => setShowGenre(!showGenre)}

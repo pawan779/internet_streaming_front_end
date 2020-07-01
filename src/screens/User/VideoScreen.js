@@ -95,7 +95,7 @@ const VideoScreen = ({ route }) => {
     <View style={styles.container}>
       <VideoPlayer videoId={movie.video} />
       {!showReview ? (
-        <View style={{ padding: 10 }}>
+        <View style={{ padding: 10,flex:1 }}>
           <ScrollView>
             <View
               style={{
