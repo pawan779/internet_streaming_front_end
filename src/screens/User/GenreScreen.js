@@ -174,7 +174,7 @@ const GenreScreen = ({ navigation }) => {
       keyboardVerticalOffset={0}
       style={styles.container}
     >
-      <Header headerTitle="Genre" back />
+      <Header headerTitle="Genre" />
       {admin ? <Fab onPress={() => handleFab()} /> : null}
       <FlatList
         refreshControl={
