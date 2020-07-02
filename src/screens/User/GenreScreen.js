@@ -174,7 +174,7 @@ const GenreScreen = ({ navigation }) => {
       keyboardVerticalOffset={0}
       style={styles.container}
     >
-      <Header headerTitle="Genre" />
+      <Header headerTitle="Genre" back={admin ? true : false} />
       {admin ? <Fab onPress={() => handleFab()} /> : null}
       <FlatList
         refreshControl={
@@ -196,7 +196,7 @@ const GenreScreen = ({ navigation }) => {
                   title={item.name}
                   editable={admin ? true : false}
                   onEdit={() => handleEdit(item)}
-                  onDelete={() => handleDelete(item)}
+                  onDelete={() => handleDelete(item._id)}
                   onPress={() => handlePress(item._id)}
                 />
               </View>

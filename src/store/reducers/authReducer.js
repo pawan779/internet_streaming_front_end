@@ -10,7 +10,7 @@ export const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case "AUTH":
       return {
-        token: action.payload.token,
+        token: `Bearer ${action.payload.token}`,
         admin: action.payload.admin,
       };
     case "LOGOUT":
